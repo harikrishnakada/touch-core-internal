@@ -24,6 +24,7 @@ namespace touch_core_internal.ViewModel
             entity.Name = this.Name;
             entity.Email = this.Email;
             entity.Designation = this.Designation;
+            entity.Photo = this.Photo;
         }
     }
 
