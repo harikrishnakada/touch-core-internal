@@ -16,6 +16,15 @@ namespace touch_core_internal.Model
 
         public virtual byte[] Photo { get; set; }
 
+        protected void WriteViewModel(Employee viewModel)
+        {
+            this.Designation = viewModel.Designation;
+            this.Email = viewModel.Email;
+            this.Identifier = viewModel.Identifier;
+            this.Name = viewModel.Name;
+            this.Photo = viewModel.Photo;
+        }
+
         //public virtual ISet<Recognition> Recognitions { get; set; } = new HashSet<Recognition>();
     }
 }

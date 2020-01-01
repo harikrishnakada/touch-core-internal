@@ -27,6 +27,4 @@ namespace touch_core_internal.ViewModel
             entity.Photo = this.Photo;
         }
     }
-
-   
 }
