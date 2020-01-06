@@ -15,7 +15,7 @@ namespace touch_core_internal.ORM.Nhibernate
 {
     public static class NhibernateExtensions
     {
-        public static ISessionFactory sessionFactory;
+        public static ISessionFactory SessionFactory { get; private set; }
 
         public static IServiceCollection AddNHibernate(this IServiceCollection services, string connectionString)
         {
@@ -37,7 +37,7 @@ namespace touch_core_internal.ORM.Nhibernate
 
             configuration.AddMapping(domainMapping);
 
-            sessionFactory = configuration.BuildSessionFactory();
+            SessionFactory = configuration.BuildSessionFactory();
 
             return services;
         }
