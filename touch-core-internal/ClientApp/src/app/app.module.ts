@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { DataTablesModule } from 'angular-datatables';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -15,11 +16,15 @@ import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { EmployeeFormComponent } from './employee-form/employee-form.component';
 import { BadgesComponent } from './badges/badges.component';
 import { RewardsListComponent } from './rewards-list/rewards-list.component';
+
 import { AuthService } from './services/auth.service';
 import { AppSettings } from './app.config';
 
 import { MsalModule, MsalGuard } from '@azure/msal-angular';
 import { AuthorizeDirective } from './directives/authorize.directive';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 //import { Observable } from 'rxjs/Observable';
 
@@ -36,13 +41,17 @@ export const protectedResourceMap: [string, string[]][] = [['https://graph.micro
         EmployeeFormComponent,
         BadgesComponent,
         RewardsListComponent,
-        AuthorizeDirective
+        AuthorizeDirective,
+        HeaderComponent,
+        FooterComponent,
+        SpinnerComponent
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
         HttpClientModule,
         FormsModule,
         CommonModule,
+        NgxSpinnerModule,
         DataTablesModule,
         MsalModule.forRoot({
             clientID: AppSettings.applicationId,
@@ -55,8 +64,7 @@ export const protectedResourceMap: [string, string[]][] = [['https://graph.micro
         }),
         RouterModule.forRoot([
             { path: '', component: HomeComponent, pathMatch: 'full' },
-            { path: 'counter', component: CounterComponent },
-            { path: 'fetch-data', component: FetchDataComponent },
+            { path: 'home', component: HomeComponent },
             { path: 'employee', component: EmployeeListComponent },
             { path: 'reward', component: RewardsListComponent },
         ])
