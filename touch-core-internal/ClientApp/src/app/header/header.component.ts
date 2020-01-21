@@ -12,7 +12,7 @@ import { reject } from 'q';
 export class HeaderComponent implements OnInit {
     isLoggedIn: boolean = true;
 
-    constructor(private authService: AuthService, private SpinnerService: NgxSpinnerService) {
+    constructor(public authService: AuthService, private SpinnerService: NgxSpinnerService) {
     }
 
     ngOnInit() {

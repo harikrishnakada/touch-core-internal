@@ -3,6 +3,7 @@ import { DataTablesModule } from 'angular-datatables';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
+import { EmployeeService } from '../services/employee.service';
 
 @Component({
     selector: 'app-employee-list',
@@ -17,7 +18,7 @@ export class EmployeeListComponent implements OnInit {
     dtTrigger: Subject<any> = new Subject<any>();
     promises: Promise<any>[] = [];
 
-    constructor(private http: HttpClient, private SpinnerService: NgxSpinnerService) { }
+    constructor(private http: HttpClient, private SpinnerService: NgxSpinnerService, private employeeService: EmployeeService) { }
 
     ngOnInit() {
         this.SpinnerService.show();
@@ -50,13 +51,9 @@ export class EmployeeListComponent implements OnInit {
     }
 
     async GetEmployees(): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this.http.get('https://c6b60f2b-52d4-4233-88ea-6c1ed0158c18.mock.pstmn.io/Employees').subscribe((resp: Response) => {
-                this.employees = resp;
-                // Calling the DT trigger to manually render the table
-                this.dtTrigger.next();
-                resolve();
-            });
+        return this.employeeService.GetEmployees().then((result) => {
+            this.employees = result;
+            this.dtTrigger.next();
         });
     }
 }

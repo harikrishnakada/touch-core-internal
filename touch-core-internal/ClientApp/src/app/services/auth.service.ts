@@ -3,7 +3,6 @@ import { MsalService } from '@azure/msal-angular';
 import { Client } from '@microsoft/microsoft-graph-client';
 import { User } from '../Model/user';
 import { AppSettings } from '../app.config';
-import { isBoolean } from 'util';
 
 @Injectable()
 export class AuthService implements OnInit {
@@ -30,7 +29,7 @@ export class AuthService implements OnInit {
     ngOnInit() { }
 
 
-    async signIn(): Promise<any> {
+    public async signIn(): Promise<any> {
         let result = await this.msalService.loginPopup()
             .catch((reason) => {
                 // this.alertsService.add('Login failed', JSON.stringify(reason, null, 2));
@@ -45,7 +44,7 @@ export class AuthService implements OnInit {
     }
 
     // Sign out
-    signOut(): void {
+    public signOut(): void {
         sessionStorage.removeItem('accessToken');
         sessionStorage.removeItem('hasPermission');
         this.authenticated = false;
