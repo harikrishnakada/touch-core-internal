@@ -5,6 +5,8 @@ import { Subject } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { environment } from '../../environments/environment';
 import { HttpService } from '../services/http.service';
+import { ToastrService } from 'ngx-toastr';
+import { GratificationService } from 'src/app/services/gratification.service';
 // import { NgbModal, NgbModalRef, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 
@@ -23,7 +25,8 @@ export class RewardComponent implements OnInit {
     dtTrigger: Subject<any> = new Subject<any>();
     promises: Promise<any>[] = [];
 
-    constructor(private httpc: HttpClient,private httpService: HttpService, private SpinnerService: NgxSpinnerService
+    constructor(private httpc: HttpClient,private httpService: HttpService, private SpinnerService: NgxSpinnerService,
+        private toastr: ToastrService, private gService: GratificationService
     ) { }
 
     ngOnInit() {
@@ -57,21 +60,17 @@ export class RewardComponent implements OnInit {
     }
 
     async GetRewards(): Promise<any> {
-        return new Promise((resolve, reject) => {
-            
-            this.httpc.get(environment.baseUrl + "/reward").subscribe((resp: Response) => {
-                this.rewards = resp;
-                // Calling the DT trigger to manually render the table
-                this.dtTrigger.next();
-                resolve();
-            });
+        return this.gService.GetRewards().then((result) => {
+            this.rewards = result;
+            this.dtTrigger.next();
         });
     }
 
     onRewardAdded(newReward: any) {
         // this.GetRewards();
         console.log(newReward);
-       this.toggleModal("#addRewardModal")
+       this.toggleModal("#addRewardModal");
+       this.toastr.success('Sucess');
         this.reRender();
     }
 

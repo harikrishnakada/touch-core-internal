@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, ElementRef, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EmployeeService } from '../../services/employee.service';
@@ -16,7 +16,7 @@ import { GratificationService } from 'src/app/services/gratification.service';
 export class RewardFormComponent implements OnInit {
     @ViewChild('addReward', { static: false }) addRewardForm: NgForm;
     @Output() rewardAdded = new EventEmitter<any>();
-    @ViewChild("myDiv", {static: false}) divView: ElementRef;
+    @ViewChild("myDiv", { static: false }) divView: ElementRef;
 
     employees: any = [];
     badges: any = [];
@@ -28,8 +28,8 @@ export class RewardFormComponent implements OnInit {
 
     ngOnInit() {
         this.SpinnerService.show();
-       // this.promises.push(this.GetEmployees());
-        //this.promises.push(this.GetBadges());
+        this.promises.push(this.GetEmployees());
+        this.promises.push(this.GetBadges());
 
         Promise.all(this.promises).then(() => {
             this.SpinnerService.hide();
@@ -59,7 +59,7 @@ export class RewardFormComponent implements OnInit {
             this.rewardAdded.emit(form.value);
             this.SpinnerService.hide();
         });
-        
+
     }
 
     reset() {
