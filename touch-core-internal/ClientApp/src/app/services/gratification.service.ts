@@ -16,4 +16,12 @@ export class GratificationService {
           });
       });
   }
+
+    async GetRewards(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http.get(environment.baseUrl + "/reward").subscribe((resp: Response) => {
+                resolve(resp);
+            });
+        });
+    }
 }

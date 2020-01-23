@@ -10,6 +10,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { NgSelectModule, NgOption } from '@ng-select/ng-select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MsalModule, MsalGuard } from '@azure/msal-angular';
+import { ToastrModule } from 'ngx-toastr';
 
 //Components
 import { AppComponent } from './app.component';
@@ -55,7 +56,7 @@ export const protectedResourceMap: [string, string[]][] = [['https://graph.micro
         FooterComponent,
         SpinnerComponent,
         RewardComponent,
-        RewardFormComponent
+        RewardFormComponent,
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -66,6 +67,7 @@ export const protectedResourceMap: [string, string[]][] = [['https://graph.micro
         DataTablesModule,
         NgSelectModule,
         BrowserAnimationsModule,
+        ToastrModule.forRoot(),
         MsalModule.forRoot({
             clientID: AppSettings.applicationId,
             authority: `${AppSettings.authority}/${AppSettings.tenantId}`,
