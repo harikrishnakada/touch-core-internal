@@ -1,0 +1,9 @@
+{
+    "EmailNotification": {
+        "Rewards": {
+            "SubjectLine":  "Employee Rewards and Recognition",
+            "CCAddresses": [ "harik@touchcoresystems.com", "prasadT@touchcoresystems.com" ]
+        }
+    }
+
+}

@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 //using System.Web.Http;
 using Microsoft.AspNetCore.Mvc;
+using touch_core_internal.Configuration;
 using touch_core_internal.Model;
 using touch_core_internal.ORM.Nhibernate;
+using touch_core_internal.Services;
 using touch_core_internal.ViewModel;
 
 namespace touch_core_internal.Controllers
@@ -16,6 +18,16 @@ namespace touch_core_internal.Controllers
     [Route("api/employee")]
     public class EmployeeController : ControllerBase
     {
+        public ISendEmailNotificationService SendEmailNotificationService { get; set; }
+        public IInternalConfiguration InternalConfiguration { get; set; }
+
+        public EmployeeController(ISendEmailNotificationService sendEmailNotificationService, IInternalConfiguration internalConfiguration)
+        {
+            this.SendEmailNotificationService = sendEmailNotificationService;
+            this.InternalConfiguration = internalConfiguration;
+        }
+
+
         [Route("{id:guid}"), HttpDelete]
         public virtual async Task<IActionResult> DeleteAsync(Guid id)
         {

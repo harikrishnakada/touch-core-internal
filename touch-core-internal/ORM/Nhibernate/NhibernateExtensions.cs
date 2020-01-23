@@ -24,7 +24,7 @@ namespace touch_core_internal.ORM.Nhibernate
             mapper.AddMappings(typeof(NhibernateExtensions).Assembly.ExportedTypes);
             HbmMapping domainMapping = mapper.CompileMappingForAllExplicitlyAddedEntities();
 
-            var configuration = new Configuration();
+            var configuration = new NHibernate.Cfg.Configuration();
             configuration.DataBaseIntegration(c =>
             {
                 c.Dialect<MsSql2012Dialect>();

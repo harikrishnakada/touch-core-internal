@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" dir="ltr" lang="en">
+        <tbody>
+            <tr>
+                <td valign="top" width="35%"></td>
+                <td valign="top">
+
+                    <table width="640" cellpadding="0" cellspacing="0" border="0" dir="ltr" lang="en" style="border-left:1px solid #e3e3e3;border-right:1px solid #e3e3e3">
+                        <tbody>
+                            <tr style="background-color:#0072c6">
+                                <td width="1" style="background:#0072c6;border-top:1px solid #e3e3e3;padding:12px 0"></td>
+                                <td width="24" style="border-top:1px solid #e3e3e3;border-bottom:1px solid #e3e3e3;padding:12px 0"><span class="notification-spaces">&nbsp;</span></td>
+                                <td width="310" valign="middle" style="border-top:1px solid #e3e3e3;border-bottom:1px solid #e3e3e3;padding:12px 0">
+                                    <h1 style="line-height:20pt;font-family:Segoe UI Light;font-size:18pt;color:#ffffff;font-weight:normal">
+
+                                        <span><font color="White">Badge Name: {1}</font></span>
+
+                                    </h1>
+                                </td>
+                                <td width="24" style="border-top:1px solid #e3e3e3;border-bottom:1px solid #e3e3e3;padding:12px 0"><span class="notification-spaces">&nbsp;</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table width="640" cellpadding="0" cellspacing="0" border="0" dir="ltr" lang="en" style="border-left:1px solid #e3e3e3;border-right:1px solid #e3e3e3">
+                        <tbody>
+                            <tr>
+                                <td width="1" style="background:#e3e3e3"></td>
+                                <td width="24"  style="border-bottom:1px solid #e3e3e3;"><span class="notification-spaces">&nbsp;</span></td>
+                                <td width="640" valign="top" colspan="2" style="border-bottom:1px solid #e3e3e3;padding:10px 0 20px">
+                                    <table cellpadding="0" cellspacing="0" border="0">
+                                        <tbody>
+                                            <tr>
+                                                <td width="630" style="font-size:10pt;line-height:13pt;color:#000">
+                                                    <table cellpadding="0" cellspacing="0" border="0" width="100%" dir="ltr" lang="en">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+																	<p style="font-family:'Segoe UI',Tahoma,sans-serif;font-size:14px;color:#333">Dear {0},</p>
+																	<p style="font-family:'Segoe UI',Tahoma,sans-serif;font-size:14px;color:#333">Congratulations! You have recieved a {1} badge of category {2}</p>
+																	<p style="font-family:'Segoe UI',Tahoma,sans-serif;font-size:14px;color:#333">A {3} points have been added to your account.</p>
+																</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table width="640" cellpadding="0" cellspacing="0" border="0" dir="ltr" lang="en" style="border-left:1px solid #e3e3e3;border-right:1px solid #e3e3e3;border-bottom:1px solid #e3e3e3;">
+                        <tbody>
+                            <tr>
+                                <td width="1" style="background:#e3e3e3"></td>
+                                <td width="24"><span class="notification-spaces">&nbsp;</span></td>
+                                <td width="640" valign="top" colspan="2" style="padding:10px 0 20px">
+                                    <table cellpadding="0" cellspacing="0" border="0">
+                                        <tbody>
+                                            <tr>
+                                                <td width="630" style="font-size:10pt;line-height:13pt;color:#000">
+                                                    <table cellpadding="0" cellspacing="0" border="0" width="585" class="notification-footer">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <table cellpadding="0" cellspacing="0" border="0" dir="ltr" lang="en" style="margin-right:30px">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <p style="font-family:'Segoe UI',Tahoma,sans-serif;margin:0px 0px 0px 5px;color:#666;font-size:10px">
+
+                                                                                        This message was sent from an unmonitored email address. Please do not reply to this message.
+
+                                                                                    </p>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
