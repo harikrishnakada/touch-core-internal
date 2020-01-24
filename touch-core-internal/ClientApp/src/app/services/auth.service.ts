@@ -14,16 +14,16 @@ export class AuthService implements OnInit {
     constructor(private msalService: MsalService) {
 
         console.log("Auth service is hit");
-        if (sessionStorage.getItem('accessToken') != null)
+        if ((sessionStorage.getItem('accessToken') != null && sessionStorage.getItem('accessToken') != '') || (sessionStorage.getItem('msal.idtoken') != null && sessionStorage.getItem('msal.idtoken') != ''))
             this.authenticated = true;
-
-        var promise = new Promise((resolve, reject) => {
-            this.getUser().then(() => {
-                console.log("User request completed");
-                console.log("User is :" + this.user.displayName)
-                resolve();
+        if (this.authenticated) {
+            var promise = new Promise((resolve, reject) => {
+                this.getUser().then(() => {
+                    console.log("User request completed");
+                    resolve();
+                });
             });
-        });
+        }
     }
 
     ngOnInit() { }
@@ -85,6 +85,7 @@ export class AuthService implements OnInit {
         this.user.displayName = graphUser.displayName;
         // Prefer the mail property, but fall back to userPrincipalName
         this.user.email = graphUser.mail || graphUser.userPrincipalName;
+        this.user.hasPermission = isAuthorized;
 
         return this.user;
     }
@@ -110,5 +111,10 @@ export class AuthService implements OnInit {
             return JSON.parse(sessionStorage.getItem("hasPermission").toLowerCase());
         else
             return false;
+    }
+
+    public isUserLoggedIn(): boolean{
+        if (sessionStorage.getItem("accessToken") != null)
+        return !!sessionStorage.getItem("accessToken");
     }
 }

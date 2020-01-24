@@ -11,7 +11,7 @@ export class EmployeeService {
 
     async GetEmployees(): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.get(environment.baseUrl+ "/employee").subscribe((resp: Response) => {
+            this.http.get(environment.apiUrl+ "/employee").subscribe((resp: Response) => {
                // this.employees = resp;
                 // Calling the DT trigger to manually render the table
                // this.dtTrigger.next();

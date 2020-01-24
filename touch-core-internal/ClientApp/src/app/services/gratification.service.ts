@@ -11,7 +11,7 @@ export class GratificationService {
 
   async GetBadges(): Promise<any> {
       return new Promise((resolve, reject) => {
-          this.http.get(environment.baseUrl + "/badge").subscribe((resp: Response) => {
+          this.http.get(environment.apiUrl + "/badge").subscribe((resp: Response) => {
               resolve(resp);
           });
       });
@@ -19,7 +19,7 @@ export class GratificationService {
 
     async GetRewards(): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.get(environment.baseUrl + "/reward").subscribe((resp: Response) => {
+            this.http.get(environment.apiUrl + "/reward").subscribe((resp: Response) => {
                 resolve(resp);
             });
         });

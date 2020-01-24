@@ -34,6 +34,7 @@ import { AppSettings } from './app.config';
 
 //Directives
 import { AuthorizeDirective } from './directives/authorize.directive';
+import { AuthenticateDirective } from './directives/authenticate.directive';
 
 
 //import { Observable } from 'rxjs/Observable';
@@ -57,6 +58,7 @@ export const protectedResourceMap: [string, string[]][] = [['https://graph.micro
         SpinnerComponent,
         RewardComponent,
         RewardFormComponent,
+        AuthenticateDirective,
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -78,10 +80,10 @@ export const protectedResourceMap: [string, string[]][] = [['https://graph.micro
             protectedResourceMap: protectedResourceMap
         }),
         RouterModule.forRoot([
-            { path: '', component: HomeComponent, pathMatch: 'full' },
-            { path: 'home', component: HomeComponent },
-            { path: 'employee', component: EmployeeListComponent },
-            { path: 'rewards', component: RewardComponent },
+            { path: '', component: HomeComponent, pathMatch: 'full', canActivate: [MsalGuard] },
+            { path: 'home', component: HomeComponent, canActivate: [MsalGuard] },
+            { path: 'employee', component: EmployeeListComponent, canActivate: [MsalGuard] },
+            { path: 'rewards', component: RewardComponent, canActivate: [MsalGuard]},
         ])
     ],
     providers: [AuthService],

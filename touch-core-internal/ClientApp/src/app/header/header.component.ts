@@ -10,7 +10,7 @@ import { reject } from 'q';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-    isLoggedIn: boolean = true;
+    isLoggedIn: boolean = false;
 
     constructor(public authService: AuthService, private SpinnerService: NgxSpinnerService) {
     }
@@ -23,6 +23,7 @@ export class HeaderComponent implements OnInit {
         this.SpinnerService.show();
         await this.authService.signIn().then(() => {
             this.SpinnerService.hide();
+            location.reload();
         });
     }
 
