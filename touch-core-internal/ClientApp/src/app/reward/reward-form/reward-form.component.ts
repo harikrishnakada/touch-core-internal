@@ -6,6 +6,7 @@ import { NgSelectModule, NgOption } from '@ng-select/ng-select';
 import { NgForm } from '@angular/forms';
 import { environment } from '../../../environments/environment';
 import { GratificationService } from 'src/app/services/gratification.service';
+import { RewardModal } from '../../model/reward-model';
 
 
 @Component({
@@ -16,11 +17,12 @@ import { GratificationService } from 'src/app/services/gratification.service';
 export class RewardFormComponent implements OnInit {
     @ViewChild('addReward', { static: false }) addRewardForm: NgForm;
     @Output() rewardAdded = new EventEmitter<any>();
+    @Input() newReward: RewardModal;
     @ViewChild("myDiv", { static: false }) divView: ElementRef;
 
     employees: any = [];
     badges: any = [];
-    newReward: any = {};
+   // newReward: RewardModal = new RewardModal;
     promises: Promise<any>[] = [];
 
     constructor(private http: HttpClient, private SpinnerService: NgxSpinnerService,
@@ -54,7 +56,7 @@ export class RewardFormComponent implements OnInit {
         console.log(form);
         this.SpinnerService.show();
         //this.toogleModal("#addRewardModal");
-        this.http.post(environment.baseUrl + "/reward", this.newReward).toPromise().then(() => {
+        this.http.post(environment.apiUrl + "/reward", this.newReward).toPromise().then(() => {
             this.reset();
             this.rewardAdded.emit(form.value);
             this.SpinnerService.hide();

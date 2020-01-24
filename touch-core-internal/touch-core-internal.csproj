@@ -31,7 +31,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\model\reward-model.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Database\Tables\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\model\reward-model.ts" />
   </ItemGroup>
 
   <ItemGroup>

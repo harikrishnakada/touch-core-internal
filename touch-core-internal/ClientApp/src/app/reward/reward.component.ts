@@ -7,6 +7,8 @@ import { environment } from '../../environments/environment';
 import { HttpService } from '../services/http.service';
 import { ToastrService } from 'ngx-toastr';
 import { GratificationService } from 'src/app/services/gratification.service';
+import { RewardModal } from '../model/reward-model';
+import { AuthService } from '../services/auth.service';
 // import { NgbModal, NgbModalRef, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 
@@ -20,13 +22,14 @@ export class RewardComponent implements OnInit {
     dtElement: DataTableDirective;
     // @ViewChild('addReward', { static: false }) dtElements: DataTableDirective;
     rewards: any = [];
+    reward: RewardModal = new RewardModal;
     
     dtOptions: {};
     dtTrigger: Subject<any> = new Subject<any>();
     promises: Promise<any>[] = [];
 
-    constructor(private httpc: HttpClient,private httpService: HttpService, private SpinnerService: NgxSpinnerService,
-        private toastr: ToastrService, private gService: GratificationService
+    constructor(private httpc: HttpClient, private httpService: HttpService, private SpinnerService: NgxSpinnerService,
+        private toastr: ToastrService, private gService: GratificationService, private authService: AuthService
     ) { }
 
     ngOnInit() {
@@ -39,12 +42,13 @@ export class RewardComponent implements OnInit {
 
         this.dtOptions = {
             pagingType: 'full_numbers',
-            // columnDefs: [
-            //   {
-            // }
-            // ],
+            columnDefs: [
+                { defaultContent: "", targets: "_all" },
+                { targets: [ 0 ,1, 2, 3], orderable: true },
+                { targets: "_all", orderable: false }
+            ],
             lengthMenu: [5, 20, 40],
-            pageLength: 5,
+            pageLength: 10,
             dom: 'Bfrtip',
             // dom: "<'row'<'col-sm-3'B>>" + "<'row'<'col-sm-12'tr>>" +
             // "<'row table-control-row'<'col-sm-3'i><'col-sm-3'l><'col-sm-6'p>>",
@@ -72,6 +76,15 @@ export class RewardComponent implements OnInit {
        this.toggleModal("#addRewardModal");
        this.toastr.success('Sucess');
         this.reRender();
+    }
+
+    EditForm(reward: any) {
+        this.toggleModal("#addRewardModal");
+        this.reward = {
+            badgeId: reward.badgeId,
+            employeeId: reward.employeeId,
+            comments: reward.comments
+        }
     }
 
     reRender(): void {
