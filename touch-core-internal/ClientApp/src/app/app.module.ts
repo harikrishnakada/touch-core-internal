@@ -80,8 +80,8 @@ export const protectedResourceMap: [string, string[]][] = [['https://graph.micro
             protectedResourceMap: protectedResourceMap
         }),
         RouterModule.forRoot([
-            { path: '', component: HomeComponent, pathMatch: 'full', canActivate: [MsalGuard] },
-            { path: 'home', component: HomeComponent, canActivate: [MsalGuard] },
+            { path: '', component: HomeComponent, pathMatch: 'full' },
+            { path: 'home', component: HomeComponent },
             { path: 'employee', component: EmployeeListComponent, canActivate: [MsalGuard] },
             { path: 'rewards', component: RewardComponent, canActivate: [MsalGuard]},
         ])
