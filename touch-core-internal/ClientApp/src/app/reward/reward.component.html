@@ -24,7 +24,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let reward of rewards; let i = index" role="row">
+                            <tr *ngFor="let reward of rewardList; let i = index" role="row">
                                 <td class="text-center text-muted">{{reward.employee.identifier}}</td>
                                 <td class="text-center">{{reward.employee.name}}</td>
                                 <td class="text-center">{{reward.badge.badgeName}}</td>

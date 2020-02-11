@@ -1,4 +1,4 @@
-USE [Gratification]
+USE [TC_Internal]
 GO
 
 /****** Object:  Table [dbo].[Employees]    Script Date: 12/31/2019 7:24:12 PM ******/

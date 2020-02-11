@@ -20,7 +20,6 @@ export class AuthService implements OnInit {
         var promise = new Promise((resolve, reject) => {
             this.getUser().then(() => {
                 console.log("User request completed");
-                console.log("User is :" + this.user.displayName)
                 resolve();
             });
         });

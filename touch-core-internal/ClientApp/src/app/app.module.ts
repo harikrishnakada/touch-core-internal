@@ -1,16 +1,18 @@
 //Modules
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+//import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { DataTablesModule } from 'angular-datatables';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { NgSelectModule, NgOption } from '@ng-select/ng-select';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MsalModule, MsalGuard } from '@azure/msal-angular';
 import { ToastrModule } from 'ngx-toastr';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 //Components
 import { AppComponent } from './app.component';
@@ -34,6 +36,9 @@ import { AppSettings } from './app.config';
 
 //Directives
 import { AuthorizeDirective } from './directives/authorize.directive';
+import { TimeSheetComponent } from './time-sheet/time-sheet.component';
+import { HttpService } from './services/http.service';
+import { AddTimeSheetComponent } from './time-sheet/add-time-sheet/add-time-sheet.component';
 
 
 //import { Observable } from 'rxjs/Observable';
@@ -57,9 +62,12 @@ export const protectedResourceMap: [string, string[]][] = [['https://graph.micro
         SpinnerComponent,
         RewardComponent,
         RewardFormComponent,
+        TimeSheetComponent,
+        AddTimeSheetComponent,
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+        //NgbModule,
         HttpClientModule,
         FormsModule,
         CommonModule,
@@ -67,6 +75,8 @@ export const protectedResourceMap: [string, string[]][] = [['https://graph.micro
         DataTablesModule,
         NgSelectModule,
         BrowserAnimationsModule,
+        OwlDateTimeModule,
+        OwlNativeDateTimeModule,
         ToastrModule.forRoot(),
         MsalModule.forRoot({
             clientID: AppSettings.applicationId,
@@ -82,9 +92,10 @@ export const protectedResourceMap: [string, string[]][] = [['https://graph.micro
             { path: 'home', component: HomeComponent },
             { path: 'employee', component: EmployeeListComponent },
             { path: 'rewards', component: RewardComponent },
+            { path: 'timeSheet', component: TimeSheetComponent },
         ])
     ],
-    providers: [AuthService],
+    providers: [AuthService, HttpService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

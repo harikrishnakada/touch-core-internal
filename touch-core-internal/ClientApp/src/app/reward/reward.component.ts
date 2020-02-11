@@ -16,16 +16,18 @@ import { GratificationService } from 'src/app/services/gratification.service';
     styleUrls: ['./reward.component.css']
 })
 export class RewardComponent implements OnInit {
-    @ViewChild(DataTableDirective,  {static: false})
-    dtElement: DataTableDirective;
+    @ViewChild(DataTableDirective, { static: false })
     // @ViewChild('addReward', { static: false }) dtElements: DataTableDirective;
     rewards: any = [];
-    
+    rewardList: any = [];
+
+    dtElement: DataTableDirective;
     dtOptions: {};
     dtTrigger: Subject<any> = new Subject<any>();
+    
     promises: Promise<any>[] = [];
 
-    constructor(private httpc: HttpClient,private httpService: HttpService, private SpinnerService: NgxSpinnerService,
+    constructor(private httpc: HttpClient, private httpService: HttpService, private SpinnerService: NgxSpinnerService,
         private toastr: ToastrService, private gService: GratificationService
     ) { }
 
@@ -61,7 +63,7 @@ export class RewardComponent implements OnInit {
 
     async GetRewards(): Promise<any> {
         return this.gService.GetRewards().then((result) => {
-            this.rewards = result;
+            this.rewardList = result;
             this.dtTrigger.next();
         });
     }
@@ -69,8 +71,8 @@ export class RewardComponent implements OnInit {
     onRewardAdded(newReward: any) {
         // this.GetRewards();
         console.log(newReward);
-       this.toggleModal("#addRewardModal");
-       this.toastr.success('Sucess');
+        this.toggleModal("#addRewardModal");
+        this.toastr.success('Sucess');
         this.reRender();
     }
 
