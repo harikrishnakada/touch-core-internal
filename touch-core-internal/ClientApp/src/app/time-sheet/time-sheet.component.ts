@@ -105,7 +105,7 @@ export class TimeSheetComponent implements OnInit {
     //    return this.http.get(`/employee/${username}`).toPromise();
     //}
 
-   
+
 
     getTimeSheets(): Promise<any> {
         return this.timeSheetService.GetTimeSheets().then((resp) => {

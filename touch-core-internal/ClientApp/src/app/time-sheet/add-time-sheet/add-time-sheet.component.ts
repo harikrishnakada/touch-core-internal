@@ -10,9 +10,9 @@ import { Subject } from 'rxjs';
 import { EmployeeService } from '../../services/employee.service';
 
 @Component({
-  selector: 'app-add-time-sheet',
-  templateUrl: './add-time-sheet.component.html',
-  styleUrls: ['./add-time-sheet.component.css']
+    selector: 'app-add-time-sheet',
+    templateUrl: './add-time-sheet.component.html',
+    styleUrls: ['./add-time-sheet.component.css']
 })
 export class AddTimeSheetComponent implements OnInit {
 
@@ -33,7 +33,7 @@ export class AddTimeSheetComponent implements OnInit {
 
     ngOnInit() {
         this.promises.push(this.getAllEmployees());
-  }
+    }
 
     maxDate() {
         return moment(this.newTimeSheet.fromTime).add(1, 'days')["_d"];
@@ -72,7 +72,7 @@ export class AddTimeSheetComponent implements OnInit {
         })
     }
 
-    getDuration() {
+    getDuration(fromDate: any, toDate: any) {
         return this.timeSheetService.getDuration(this.FromDateTime, this.ToDateTime);
     }
 

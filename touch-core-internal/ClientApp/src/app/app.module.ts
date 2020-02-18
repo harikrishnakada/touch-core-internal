@@ -13,6 +13,7 @@ import { NgSelectModule, NgOption } from '@ng-select/ng-select';
 import { MsalModule, MsalGuard } from '@azure/msal-angular';
 import { ToastrModule } from 'ngx-toastr';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 //Components
 import { AppComponent } from './app.component';
@@ -47,6 +48,7 @@ export const protectedResourceMap: [string, string[]][] = [['https://graph.micro
 
 @NgModule({
     declarations: [
+        
         AppComponent,
         NavMenuComponent,
         HomeComponent,
@@ -68,6 +70,7 @@ export const protectedResourceMap: [string, string[]][] = [['https://graph.micro
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
         //NgbModule,
+        MDBBootstrapModule.forRoot(),
         HttpClientModule,
         FormsModule,
         CommonModule,

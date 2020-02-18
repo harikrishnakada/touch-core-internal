@@ -32,21 +32,20 @@
   <div class="scrollbar-sidebar">
     <div class="app-sidebar__inner">
       <ul class="vertical-nav-menu">
-        <li class="app-sidebar__heading">Elements</li>
-        <li [routerLinkActive]="['link-active']">
+        <li [routerLinkActive]="['link-active']" appAuthorize>
           <a routerLink="/employee">
             <i class="metismenu-icon fa fa-user"></i>
             Employees
           </a>
         </li>
-        <li class="app-sidebar__heading">Elements</li>
+        <!--<li class="app-sidebar__heading">Elements</li>-->
         <li>
           <a href="#">
             <i class="metismenu-icon fa fa-gift"></i>
             Gratification
             <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
           </a>
-          <ul>
+          <ul >
             <li [routerLinkActive]="['link-active']">
               <a routerLink="/employee">
                 <i class="metismenu-icon"></i>
@@ -61,7 +60,7 @@
             </li>
           </ul>
         </li>
-        <li class="app-sidebar__heading">Elements</li>
+        <!--<li class="app-sidebar__heading">Elements</li>-->
         <li [routerLinkActive]="['link-active']">
           <a routerLink="/timeSheet">
             <i class="metismenu-icon fa fa-clock"></i>

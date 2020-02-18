@@ -31,10 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Database\Tables\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Update="Configuration\Configuration.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -1,82 +1,15 @@
 <p>time-sheet works!</p>
 
 <div class="row">
-  <a href="#toogleTimeSheet" data-toggle="collapse" role="button" class="btn btn-primary" aria-expanded="false"
-     aria-controls="toogleTimeSheet">
-    Add Time Sheet
-  </a>
+  <div role="group" class="btn-group-sm btn-group">
+    <button type="button" class="btn btn-primary" (click)="toogleTimeSheet.toggle()">
+      Add Time Sheet
+    </button>
+  </div>
 </div>
 
-<div class="row">
-  <div class="collapse col-12" id="toogleTimeSheet">
-    <app-add-time-sheet></app-add-time-sheet>
-    <!--<form (ngSubmit)="onSubmit(newTimeSheet)" #addTimeSheet="ngForm">
-      <div class="row">
-        Select Employee
-        <div class="form-group required col-2">
-          <label class="control-label col-12" for="fromTime"> <strong>Employee</strong> </label>
-          <div class="col-12">
-            <ng-select [items]="allEmployees" bindLabel="name" bindValue="id" placeholder="Select Employee"
-                       appendTo="body" search="true" name="employeeId" [(ngModel)]="newTimeSheet.employeeId"
-                       #employeeModel="ngModel"
-                       required>
-            </ng-select>
-            <span class="help-block text-danger" *ngIf="!employeeModel.valid && employeeModel.touched">Please Select an Employee</span>
-          </div>
-        </div>
-
-        Select From Time
-        <div class="form-group required col-2">
-          <label class="control-label col-12" for="fromTime">
-            <strong>To Date Time</strong>
-          </label>
-          <div class="col-12">
-            <input [(ngModel)]="FromDateTime" [owlDateTimeTrigger]="dt"
-                   [owlDateTime]="dt" name="fromDateTime" class="form-control">
-            <owl-date-time #dt></owl-date-time>
-          </div>
-        </div>
-
-        Select To Time
-        <div class="form-group required  col-2">
-          <label class="control-label col-12" for="toTime">
-            <strong>To Date Time</strong>
-          </label>
-          <div class="col-12">
-            <input [(ngModel)]="ToDateTime" [min]="FromDateTime" [max]="maxDate()" [owlDateTimeTrigger]="dt1"
-                   [owlDateTime]="dt1" name="toDateTime" [disabled]="FromDateTime==null" class="form-control">
-            <owl-date-time #dt1></owl-date-time>
-          </div>
-        </div>
-
-        Hours Worked
-        <div class="form-group col-2">
-          <label class="control-label col-12" for="numberOfHours">
-            <strong> Number of hours worked</strong>
-          </label>
-          <div class="col-12">
-            <span class="form-control"> {{getDuration(FromDateTime, ToDateTime)}}</span>
-            <span *ngIf="duration != null">{{duration.hours}} hours and {{duration.minutes}}</span>
-          </div>
-        </div>
-
-        Actions
-        <div class="col-2">
-          <div class="form-group">
-            <div class="action-buttons">
-              <button class="btn btn-success" type="submit" [disabled]="!addTimeSheet.valid">
-                Save
-              </button>
-              <button class="btn btn-danger" type="button">
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </form>-->
-  </div>
+<div class="col-12" mdbCollapse #toogleTimeSheet="bs-collapse">
+  <app-add-time-sheet></app-add-time-sheet>
 </div>
 
 <div class="row">
@@ -85,7 +18,7 @@
            class="align-middle mb-0 table table-borderless table-striped table-hover">
       <thead>
         <tr>
-          <th class="text-center">Employee Name</th>
+          <th class="text-center" appAuthorize>Employee Name</th>
           <th class="text-center">From Time</th>
           <th class="text-center">To Time</th>
           <th class="text-center">Hours Worked</th>
@@ -94,7 +27,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let timeSheet of timeSheets; let i = index" role="row">
-          <td class="text-center text-muted">{{timeSheet.employee.name}}</td>
+          <td class="text-center text-muted" appAuthorize>{{timeSheet.employee.name}}</td>
           <td class="text-center text-muted">{{timeSheet.fromDateTime | date:'MM-dd-yyyy HH:mm'}}</td>
           <td class="text-center">{{timeSheet.toDateTime | date:'MM-dd-yyyy HH:mm'}}</td>
           <td class="text-center">{{getDuration(timeSheet.fromDateTime, timeSheet.toDateTime)}}</td>
