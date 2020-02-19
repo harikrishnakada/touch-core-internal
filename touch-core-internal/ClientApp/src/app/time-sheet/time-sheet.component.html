@@ -9,7 +9,7 @@
 </div>
 
 <div class="col-12" mdbCollapse #toogleTimeSheet="bs-collapse">
-  <app-add-time-sheet></app-add-time-sheet>
+  <app-add-time-sheet (timeSheetAdded)="onTimeSheetAdded($event)"></app-add-time-sheet>
 </div>
 
 <div class="row">

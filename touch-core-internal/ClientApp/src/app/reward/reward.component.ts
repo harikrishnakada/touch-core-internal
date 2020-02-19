@@ -1,3 +1,4 @@
+/// <reference path="reward-form/reward-form.component.ts" />
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
 import { HttpClient } from '@angular/common/http';
@@ -17,11 +18,12 @@ import { GratificationService } from 'src/app/services/gratification.service';
 })
 export class RewardComponent implements OnInit {
     @ViewChild(DataTableDirective, { static: false })
+    dtElement: DataTableDirective;
+
     // @ViewChild('addReward', { static: false }) dtElements: DataTableDirective;
     rewards: any = [];
     rewardList: any = [];
 
-    dtElement: DataTableDirective;
     dtOptions: {};
     dtTrigger: Subject<any> = new Subject<any>();
     
@@ -46,7 +48,7 @@ export class RewardComponent implements OnInit {
             // }
             // ],
             lengthMenu: [5, 20, 40],
-            pageLength: 5,
+            pageLength: 10,
             dom: 'Bfrtip',
             // dom: "<'row'<'col-sm-3'B>>" + "<'row'<'col-sm-12'tr>>" +
             // "<'row table-control-row'<'col-sm-3'i><'col-sm-3'l><'col-sm-6'p>>",

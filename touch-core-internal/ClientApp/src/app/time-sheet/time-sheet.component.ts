@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import * as moment from 'moment';
 import { AuthService } from '../services/auth.service';
 import { HttpService } from '../services/http.service';
@@ -8,15 +8,18 @@ import { TimeSheetService } from '../services/time-sheet.service';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { EmployeeService } from '../services/employee.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-time-sheet',
     templateUrl: './time-sheet.component.html',
     styleUrls: ['./time-sheet.component.css']
 })
-export class TimeSheetComponent implements OnInit {
+export class TimeSheetComponent implements OnInit, OnDestroy {
 
     //@ViewChild('addTimeSheet', { static: false }) addTimeSheetForm: NgForm;
+    @ViewChild(DataTableDirective, { static: false })
+    dtElement: DataTableDirective;
 
     public ToDateTime: Date = null;
     public FromDateTime: Date = null;
@@ -27,17 +30,21 @@ export class TimeSheetComponent implements OnInit {
     duration: any = null;
     promises: Promise<any>[] = [];
 
-    dtElement: DataTableDirective;
     dtOptions: {};
     dtTrigger: Subject<any> = new Subject<any>();
 
     constructor(private auth: AuthService, private http: HttpService,
         private timeSheetService: TimeSheetService,
-        private spinnerService: NgxSpinnerService, private empService: EmployeeService) { }
+        private spinnerService: NgxSpinnerService, private empService: EmployeeService, private toastr: ToastrService) { }
 
     ngOnInit() {
+        this.spinnerService.show();
         this.promises.push(this.getTimeSheets());
         //this.promises.push(this.getAllEmployees());
+
+        Promise.all(this.promises).then(() => {
+        this.spinnerService.hide();
+        });
 
         this.dtOptions = {
             pagingType: 'full_numbers',
@@ -46,7 +53,7 @@ export class TimeSheetComponent implements OnInit {
             // }
             // ],
             lengthMenu: [5, 20, 40],
-            pageLength: 5,
+            pageLength: 10,
             dom: 'Bfrtip',
             // dom: "<'row'<'col-sm-3'B>>" + "<'row'<'col-sm-12'tr>>" +
             // "<'row table-control-row'<'col-sm-3'i><'col-sm-3'l><'col-sm-6'p>>",
@@ -105,7 +112,24 @@ export class TimeSheetComponent implements OnInit {
     //    return this.http.get(`/employee/${username}`).toPromise();
     //}
 
+    onTimeSheetAdded(newTimeSheet: any) {
+        console.log(newTimeSheet);
+        this.toastr.success('Sucess');
+        this.reRender();
+    }
 
+    reRender(): void {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            // Destroy the table first
+            dtInstance.destroy();
+            this.ngOnInit();
+        });
+    }
+
+    ngOnDestroy(): void {
+        // Do not forget to unsubscribe the event
+        this.dtTrigger.unsubscribe();
+    }
 
     getTimeSheets(): Promise<any> {
         return this.timeSheetService.GetTimeSheets().then((resp) => {

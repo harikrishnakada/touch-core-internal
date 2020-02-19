@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import * as moment from 'moment';
 import { AuthService } from '../../services/auth.service';
 import { HttpService } from '../../services/http.service';
@@ -17,6 +17,8 @@ import { EmployeeService } from '../../services/employee.service';
 export class AddTimeSheetComponent implements OnInit {
 
     @ViewChild('addTimeSheet', { static: false }) addTimeSheetForm: NgForm;
+
+    @Output() timeSheetAdded = new EventEmitter<any>();
 
     public ToDateTime: Date = null;
     public FromDateTime: Date = null;
@@ -42,20 +44,36 @@ export class AddTimeSheetComponent implements OnInit {
     onSubmit(timeSheet: any): Promise<any> {
         this.spinnerService.show();
 
-        return this.getEmployee(this.auth.user.email).then((employee) => {
-            this.newTimeSheet.employeeId = employee.id;
+        if (this.newTimeSheet.employeeId == null) {
+            return this.getEmployee(this.auth.user.email).then((employee) => {
+                this.newTimeSheet.employeeId = employee.id;
+                var body = {
+                    "EmployeeId": employee.id,
+                    "FromDateTime": this.FromDateTime,
+                    "ToDateTime": this.ToDateTime
+                }
+
+                this.http.post(`/timeSheet`, body).toPromise().then(() => {
+                    this.reset();
+                    this.timeSheetAdded.emit(this.newTimeSheet);
+                    this.spinnerService.hide();
+                });
+            });
+        }
+        else {
             var body = {
-                "EmployeeId": employee.id,
+                "EmployeeId": this.newTimeSheet.employeeId,
                 "FromDateTime": this.FromDateTime,
-                "ToDateTime": this.ToDateTime
+                "ToDateTime": this.ToDateTime,
+                "Comments": this.newTimeSheet.Comments
             }
 
             this.http.post(`/timeSheet`, body).toPromise().then(() => {
                 this.reset();
-                // this.rewardAdded.emit(form.value);
+                this.timeSheetAdded.emit(this.newTimeSheet);
                 this.spinnerService.hide();
             });
-        });
+        }
     }
 
     reset() {
