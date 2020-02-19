@@ -38,7 +38,10 @@ export class AddTimeSheetComponent implements OnInit {
     }
 
     maxDate() {
-        return moment(this.newTimeSheet.fromTime).add(1, 'days')["_d"];
+        if (this.FromDateTime) {
+            var maxdate = moment(this.FromDateTime).add(1, 'days')["_d"];
+            return moment(this.FromDateTime).add(1, 'days')["_d"];
+        }
     }
 
     onSubmit(timeSheet: any): Promise<any> {
