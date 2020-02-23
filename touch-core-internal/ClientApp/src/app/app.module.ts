@@ -14,6 +14,7 @@ import { MsalModule, MsalGuard } from '@azure/msal-angular';
 import { ToastrModule } from 'ngx-toastr';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { ChartModule } from 'angular-highcharts';
 
 //Components
 import { AppComponent } from './app.component';
@@ -34,6 +35,7 @@ import { RewardFormComponent } from './reward/reward-form/reward-form.component'
 //Services
 import { AuthService } from './services/auth.service';
 import { AppSettings } from './app.config';
+
 
 //Directives
 import { AuthorizeDirective } from './directives/authorize.directive';
@@ -70,6 +72,7 @@ export const protectedResourceMap: [string, string[]][] = [['https://graph.micro
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
         //NgbModule,
+        ChartModule ,
         MDBBootstrapModule.forRoot(),
         HttpClientModule,
         FormsModule,

@@ -13,5 +13,6 @@ namespace touch_core_internal.Model
         public virtual DateTime FromDateTime { get; set; }
         public virtual DateTime ToDateTime { get; set; }
         public virtual string Comments { get; set; }
+        public virtual double Hours { get; set; }
     }
 }

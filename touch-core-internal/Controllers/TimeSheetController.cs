@@ -1,16 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using NHibernate;
+using NHibernate.Util;
+using touch_core_internal.Configuration;
 using touch_core_internal.Model;
 using touch_core_internal.ORM.Nhibernate;
-
+using touch_core_internal.Services;
 namespace touch_core_internal.Controllers
 {
     [ApiController]
     [Route("api/timeSheet")]
-    public class TimeSheetController: ControllerBase
+    public class TimeSheetController : ControllerBase
     {
 
         [Route("{id:guid?}"), HttpGet]
@@ -43,7 +49,7 @@ namespace touch_core_internal.Controllers
                 if (isUpdate)
                 {
                     timeSheet = session.QueryOver<TimeSheet>()
-                        .Fetch(x => x.Employee).Eager
+                         .Fetch(SelectMode.Fetch, x => x.Employee)
                    .Where(x => x.Id == id)
                    .SingleOrDefault();
 
@@ -58,9 +64,7 @@ namespace touch_core_internal.Controllers
                 session.SaveOrUpdate(timeSheet);
                 session.Flush();
             }
-
             return await Task.FromResult(this.Ok(timeSheet)).ConfigureAwait(false);
-
         }
 
         protected IList<TimeSheet> GetTimeSheets(Guid? id)
@@ -70,7 +74,7 @@ namespace touch_core_internal.Controllers
                 if (id.HasValue)
                 {
                     var timeSheet = session.QueryOver<TimeSheet>()
-                        .Fetch(x => x.Employee).Eager
+                        .Fetch(SelectMode.Fetch, x => x.Employee)
                    .Where(x => x.Id == id)
                    .SingleOrDefault();
 
@@ -78,9 +82,16 @@ namespace touch_core_internal.Controllers
                 }
 
                 var timeSheets = session.QueryOver<TimeSheet>()
-                        .Fetch(x => x.Employee).Eager
+                         .Fetch(SelectMode.Fetch, x => x.Employee)
                     .List<TimeSheet>();
 
+                timeSheets = timeSheets.Select(x => { x.Hours = (x.ToDateTime - x.FromDateTime).Duration().TotalHours; return x; }).ToList();
+
+                //foreach (var item in timeSheets)
+                //{
+                //    item.Hours = (item.ToDateTime - item.FromDateTime).Duration().TotalHours;
+
+                //}
                 return timeSheets;
             }
         }
