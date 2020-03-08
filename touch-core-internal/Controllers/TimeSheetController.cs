@@ -20,20 +20,24 @@ namespace touch_core_internal.Controllers
     {
 
         [Route("{id:guid?}"), HttpGet]
-        public virtual async Task<IActionResult> GetAsync(Guid? id)
+        [Route("hours/{hours}"), HttpGet]
+        public virtual async Task<IActionResult> GetAsync(Guid? id, int? hours)
         {
-            var rewards = new List<TimeSheet>();
+            var timeSheets = new List<TimeSheet>();
             if (id.HasValue)
-                rewards.AddRange(this.GetTimeSheets(id.Value));
+                timeSheets.AddRange(this.GetTimeSheets(id.Value));
             else
-                rewards.AddRange(this.GetTimeSheets(null));
+                timeSheets.AddRange(this.GetTimeSheets(null));
 
-            if (rewards.Count == 0)
+            if (timeSheets.Count == 0)
             {
                 return this.NotFound();
             }
-
-            return await Task.FromResult(this.Ok(rewards)).ConfigureAwait(false);
+            if (hours != null)
+            {
+                timeSheets = timeSheets.Where(x => x.Hours < hours).ToList();
+            }
+            return await Task.FromResult(this.Ok(timeSheets)).ConfigureAwait(false);
         }
 
         [Route("{id:guid?}"), HttpPost]

@@ -18,7 +18,7 @@ namespace touch_core_internal.ORM.Nhibernate
         public static ISessionFactory SessionFactory { get; private set; }
 
         public static IServiceCollection AddNHibernate(this IServiceCollection services, string connectionString)
-        {
+       {
             var mapper = new ModelMapper();
 
             mapper.AddMappings(typeof(NhibernateExtensions).Assembly.ExportedTypes);

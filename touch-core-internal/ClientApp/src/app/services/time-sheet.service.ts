@@ -19,6 +19,14 @@ export class TimeSheetService {
         });
     }
 
+    async GetTimeSheetsByHour(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.httpService.get("/timesheet/hours/6").toPromise().then((resp: Response) => {
+                resolve(resp);
+            });
+        });
+    }
+
     getDuration(fromTime: any, toTime: any) {
         var d1 = new Date(fromTime);
         var d2 = new Date(toTime);

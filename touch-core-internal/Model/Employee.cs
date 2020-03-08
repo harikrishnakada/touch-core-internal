@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace touch_core_internal.Model
 {
@@ -25,6 +26,6 @@ namespace touch_core_internal.Model
             this.Photo = viewModel.Photo;
         }
 
-        //public virtual ISet<Recognition> Recognitions { get; set; } = new HashSet<Recognition>();
+        //public virtual ISet<Reward> Recognitions { get; set; } = new HashSet<Reward>();
     }
 }
