@@ -39,3 +39,7 @@ code {
 input.ng-invalid.ng-touched {
   border: 1px solid red;
 }
+
+.no-permission{
+  color: red;
+}

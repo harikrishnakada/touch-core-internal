@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth.service';
 import * as Highcharts from 'highcharts';
-import { TimeSheetService } from '../services/time-sheet.service';
 import * as moment from 'moment';
 
 import More from 'highcharts/highcharts-more';
@@ -11,8 +9,10 @@ Drilldown(Highcharts);
 // Load the exporting module.
 import Exporting from 'highcharts/modules/exporting';
 import { sendRequest } from 'selenium-webdriver/http';
-import { EmployeeService } from '../services/employee.service';
-import { GratificationService } from '../services/gratification.service';
+import { AuthService } from '../core/services/auth.service';
+import { EmployeeService } from '../dashoard/services/employee.service';
+import { GratificationService } from '../gratification/gratification.service';
+import { AttendanceService } from '../attendance/attendance.service';
 // Initialize exporting module.
 Exporting(Highcharts);
 
@@ -141,7 +141,7 @@ export class HomeComponent implements OnInit {
         series: []
     };
 
-    constructor(private authService: AuthService, private timeSheetService: TimeSheetService, private employeeService: EmployeeService, private rewardsService: GratificationService) {
+    constructor(private authService: AuthService, private attendanceService: AttendanceService, private employeeService: EmployeeService, private gratificationService: GratificationService) {
 
     }
 
@@ -218,7 +218,7 @@ export class HomeComponent implements OnInit {
     }
 
     getTimeSheets(): Promise<any> {
-        return this.timeSheetService.GetTimeSheetsByHour().then((timeSheets) => {
+        return this.attendanceService.GetTimeSheetsByHour().toPromise().then((timeSheets) => {
             this.timeSheets = timeSheets;
         })
     }
@@ -230,12 +230,12 @@ export class HomeComponent implements OnInit {
     }
 
     getRewards(): Promise<any> {
-        return this.rewardsService.GetRewards().then((rewards) => {
+        return this.gratificationService.GetRewards().toPromise().then((rewards) => {
             this.rewards = rewards;
         })
     }
     getBadges(): Promise<any> {
-        return this.rewardsService.GetBadges().then((badges) => {
+        return this.gratificationService.GetBadges().toPromise().then((badges) => {
             this.badges = badges;
         })
     }
