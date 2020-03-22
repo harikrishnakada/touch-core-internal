@@ -1,43 +1,49 @@
-<div class="app-page-title">
-  <div class="page-title-wrapper">
-    <div class="page-title-heading">
-      <div class="page-title-icon">
-        <i class="pe-7s-car icon-gradient bg-mean-fruit">
-        </i>
-      </div>
-      <div>
-        Touchcore Dashboard
-        <div class="page-title-subheading">
-          This is an example dashboard created using build-in elements and components.
+<div *ngIf="isLoggedIn">
+  <div class="app-page-title">
+    <div class="page-title-wrapper">
+      <div class="page-title-heading">
+        <div class="page-title-icon">
+          <i class="pe-7s-car icon-gradient bg-mean-fruit">
+          </i>
+        </div>
+        <div>
+          HR Manager Dashboard
+          <div class="page-title-subheading">
+            This is an example dashboard created using build-in elements and components.
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-md-6 col-xl-4">
-    <div class="card mb-3 widget-content bg-midnight-bloom">
-      <div class="widget-content-wrapper text-white">
-        <div class="widget-content-left">
-          <div class="widget-heading">Total Employees</div>
-          <!--<div class="widget-subheading">Update this card to get the emplyees</div>-->
-        </div>
-        <div class="widget-content-right" style="margin-left:50px;">
-          <div class="widget-numbers text-white">{{employees.length}}<span></span></div>
+  <div class="row">
+    <div class="col-md-6 col-xl-4">
+      <div class="card mb-3 widget-content bg-midnight-bloom">
+        <div class="widget-content-wrapper text-white">
+          <div class="widget-content-left">
+            <div class="widget-heading">Total Employees</div>
+            <!--<div class="widget-subheading">Update this card to get the emplyees</div>-->
+          </div>
+          <div class="widget-content-right" style="margin-left:50px;">
+            <div class="widget-numbers text-white">{{employees.length}}<span></span></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="container">
+  <div class="container">
+    <figure class="highcharts-figure">
+      <div id="employee-rewards-chart"></div>
+    </figure>
+  </div>
   <figure class="highcharts-figure">
-    <div id="employee-rewards-chart"></div>
+    <div id="employee-time-sheet-chart"></div>
   </figure>
 </div>
-<figure class="highcharts-figure">
-  <div id="employee-time-sheet-chart"></div>
-</figure>
-
+<div *ngIf="!isLoggedIn">
+  <div class="container">
+    <h2>WelCOme to home page</h2>
+  </div>
+</div>
 <app-spinner></app-spinner>
 

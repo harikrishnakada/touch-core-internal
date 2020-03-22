@@ -32,8 +32,8 @@
   <div class="scrollbar-sidebar">
     <div class="app-sidebar__inner">
       <ul class="vertical-nav-menu">
-        <li [routerLinkActive]="['link-active']" appAuthorize>
-          <a routerLink="/employee">
+        <li [routerLinkActive]="['link-active']">
+          <a routerLink="/employee-list">
             <i class="metismenu-icon fa fa-user"></i>
             Employees
           </a>
@@ -46,12 +46,12 @@
             <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
           </a>
           <ul >
-            <li [routerLinkActive]="['link-active']">
+            <!--<li [routerLinkActive]="['link-active']">
               <a routerLink="/employee">
                 <i class="metismenu-icon"></i>
                 Badges
               </a>
-            </li>
+            </li>-->
             <li [routerLinkActive]="['link-active']">
               <a routerLink="/rewards">
                 <i class="metismenu-icon fa fa-id-badge">

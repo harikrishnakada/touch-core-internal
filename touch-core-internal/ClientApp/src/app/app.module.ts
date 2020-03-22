@@ -15,8 +15,8 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { CoreModule } from './core/core.module';
 import { GratificationModule } from './gratification/gratification.module';
-import { DashoardModule } from './dashoard/dashoard.module';
 import { AttendanceModule } from './attendance/attendance.module';
+import { EmployeeModule } from './employee/employee.module';
 
 //import { Observable } from 'rxjs/Observable';
 
@@ -33,8 +33,8 @@ import { AttendanceModule } from './attendance/attendance.module';
         AppRoutingModule,
         BrowserAnimationsModule,
         CoreModule,
+        EmployeeModule,
         GratificationModule,
-        DashoardModule,
         AttendanceModule
     ],
     providers: [],

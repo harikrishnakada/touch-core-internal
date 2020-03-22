@@ -10,7 +10,7 @@ Drilldown(Highcharts);
 import Exporting from 'highcharts/modules/exporting';
 import { sendRequest } from 'selenium-webdriver/http';
 import { AuthService } from '../core/services/auth.service';
-import { EmployeeService } from '../dashoard/services/employee.service';
+import { EmployeeService } from '../employee/employee.service';
 import { GratificationService } from '../gratification/gratification.service';
 import { AttendanceService } from '../attendance/attendance.service';
 // Initialize exporting module.
@@ -28,8 +28,11 @@ export class HomeComponent implements OnInit {
     public rewards: any[] = [];
     public badges: any[] = [];
 
+    isLoggedIn: boolean;
+
     promises: Promise<any>[] = [];
 
+    //Employee Time sheet chart configuation
     public empTimsSheetOptions: any = {
         chart: {
             type: 'column',
@@ -103,6 +106,7 @@ export class HomeComponent implements OnInit {
         },
     }
 
+    //Employee rewards chart configuation
     public rewardChartOptions: any = {
         chart: {
             type: 'column',
@@ -142,7 +146,7 @@ export class HomeComponent implements OnInit {
     };
 
     constructor(private authService: AuthService, private attendanceService: AttendanceService, private employeeService: EmployeeService, private gratificationService: GratificationService) {
-
+        this.isLoggedIn =  this.authService.authenticated
     }
 
     ngOnInit() {
