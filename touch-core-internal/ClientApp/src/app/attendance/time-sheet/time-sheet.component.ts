@@ -131,7 +131,7 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
     }
 
     getTimeSheets(): Promise<any> {
-        return this.attendanceService.GetTimeSheets().toPromise().then((resp) => {
+        return this.attendanceService.getTimeSheets().toPromise().then((resp) => {
             this.timeSheets = resp;
             this.dtTrigger.next();
         })

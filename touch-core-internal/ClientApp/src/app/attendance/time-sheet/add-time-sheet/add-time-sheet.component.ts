@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 import { HttpService } from '../../../shared/services/http.service';
 import { AttendanceService } from '../../attendance.service';
+import { EmployeeService } from '../../../employee/employee.service';
 
 @Component({
     selector: 'app-add-time-sheet',
@@ -29,7 +30,7 @@ export class AddTimeSheetComponent implements OnInit {
     duration: any = null;
 
     constructor(private auth: AuthService, private http: HttpService,
-        private attendanceService: AttendanceService,
+        private attendanceService: AttendanceService, private empService: EmployeeService,
         private spinnerService: NgxSpinnerService) { }
 
     ngOnInit() {
@@ -55,7 +56,7 @@ export class AddTimeSheetComponent implements OnInit {
                     "ToDateTime": this.ToDateTime
                 }
 
-                this.http.post(`/timeSheet`, body).toPromise().then(() => {
+                this.attendanceService.upsertTimeSheet(body).toPromise().then(() => {
                     this.reset();
                     this.timeSheetAdded.emit(this.newTimeSheet);
                     this.spinnerService.hide();
@@ -70,7 +71,7 @@ export class AddTimeSheetComponent implements OnInit {
                 "Comments": this.newTimeSheet.Comments
             }
 
-            this.http.post(`/timeSheet`, body).toPromise().then(() => {
+            this.attendanceService.upsertTimeSheet(body).toPromise().then(() => {
                 this.reset();
                 this.timeSheetAdded.emit(this.newTimeSheet);
                 this.spinnerService.hide();
@@ -83,11 +84,12 @@ export class AddTimeSheetComponent implements OnInit {
     }
 
     getEmployee(username: any): Promise<any> {
-        return this.http.get(`/employee/${username}`).toPromise();
+        return this.empService.getEmployeeByUserName(username).toPromise();
+
     }
 
     getAllEmployees() {
-        return this.attendanceService.GetEmployees().toPromise().then((resp) => {
+        return this.empService.GetEmployees().then((resp) => {
             this.allEmployees = resp;
         })
     }

@@ -11,17 +11,20 @@ export class AttendanceService {
 
     constructor(private httpService: HttpService){}
 
-    GetTimeSheets() {
+    getTimeSheets() {
         return this.httpService.get(environment.baseUrl + "/timesheet");
-              
     }
 
-    GetTimeSheetsByHour() {
+    getTimeSheetsByHour() {
         return this.httpService.get(environment.baseUrl + "/timesheet/hours/6");
     }
 
-    GetEmployees() {
+    getEmployees() {
         return this.httpService.get(environment.baseUrl + "/employee")
+    }
+
+    upsertTimeSheet(body: any) {
+        return this.httpService.post(environment.baseUrl + "/timeSheet", body)
     }
 
     getDuration(fromTime: any, toTime: any) {

@@ -222,7 +222,7 @@ export class HomeComponent implements OnInit {
     }
 
     getTimeSheets(): Promise<any> {
-        return this.attendanceService.GetTimeSheetsByHour().toPromise().then((timeSheets) => {
+        return this.attendanceService.getTimeSheetsByHour().toPromise().then((timeSheets) => {
             this.timeSheets = timeSheets;
         })
     }
