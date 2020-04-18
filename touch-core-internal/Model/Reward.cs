@@ -1,20 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace touch_core_internal.Model
 {
     public class Reward
     {
-        public virtual Badge Badge { get; set; }
+        public Badge Badge { get; set; }
 
-        public virtual Guid BadgeId { get; set; }
+        public Guid BadgeId { get; set; }
 
-        public virtual Employee Employee { get; set; }
+        public Employee Employee { get; set; }
 
-        public virtual Guid EmployeeId { get; set; }
+        public Guid EmployeeId { get; set; }
 
-        public virtual Guid Id { get; set; }
+        public Guid RewardId { get; set; } = Guid.NewGuid();
     }
 }
