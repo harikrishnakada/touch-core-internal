@@ -40,10 +40,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\BadgeController.cs" />
+    <Compile Remove="Controllers\EmployeeController.cs" />
+    <Compile Remove="Controllers\RewardController.cs" />
+    <Compile Remove="Controllers\TimeSheetController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="ClientApp\dist\assets\" />
     <Folder Include="ClientApp\src\app\dashoard\services\" />
     <Folder Include="ClientApp\src\app\shared\components\" />
-    <Folder Include="Services\" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using touch_core_internal.Model;
+using touch_core_internal.Models;
 
 namespace touch_core_internal
 {

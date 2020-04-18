@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace touch_core_internal.Model
+namespace touch_core_internal.Models
 {
     public class Reward
     {

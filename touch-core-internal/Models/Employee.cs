@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace touch_core_internal.Model
+namespace touch_core_internal.Models
 {
     public class Employee
     {
