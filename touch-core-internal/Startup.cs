@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using touch_core_internal.Configuration;
-using touch_core_internal.ORM.Nhibernate;
 using touch_core_internal.Services;
 
 namespace touch_core_internal
@@ -67,11 +65,8 @@ namespace touch_core_internal
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<ISendEmailNotificationService, SendEmailNotificationService>();
-            services.AddScoped<IInternalConfiguration, InternalConfiguration>();
 
             var connectionString = ConfigurationManager.ConnectionStrings["TC_Internal"].ConnectionString;
-
-            services.AddNHibernate(connectionString);
 
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
