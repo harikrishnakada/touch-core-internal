@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-
-//using System.Web.Http;
 using Microsoft.AspNetCore.Mvc;
-using touch_core_internal.Configuration;
-using touch_core_internal.Model;
-using touch_core_internal.ORM.Nhibernate;
+using touch_core_internal.DTOs;
 using touch_core_internal.Services;
-using touch_core_internal.ViewModel;
 
 namespace touch_core_internal.Controllers
 {
@@ -18,15 +10,12 @@ namespace touch_core_internal.Controllers
     [Route("api/employee")]
     public class EmployeeController : ControllerBase
     {
-        public ISendEmailNotificationService SendEmailNotificationService { get; set; }
-        public IInternalConfiguration InternalConfiguration { get; set; }
-
-        public EmployeeController(ISendEmailNotificationService sendEmailNotificationService, IInternalConfiguration internalConfiguration)
+        public EmployeeController(IEmployeeRepository employeeRepository)
         {
-            this.SendEmailNotificationService = sendEmailNotificationService;
-            this.InternalConfiguration = internalConfiguration;
+            this.EmployeeRepository = employeeRepository;
         }
 
+        public IEmployeeRepository EmployeeRepository { get; set; }
 
         [Route("{id:guid}"), HttpDelete]
         public virtual async Task<IActionResult> DeleteAsync(Guid id)
@@ -34,87 +23,83 @@ namespace touch_core_internal.Controllers
             if (!ModelState.IsValid)
                 return this.BadRequest(ModelState);
 
-            using (var session = NhibernateExtensions.SessionFactory.OpenSession())
-            {
-                var employee = session.Get<Employee>(id);
-                if (employee == null)
-                    return this.NotFound();
+            var serviceResponse = await this.EmployeeRepository.DeleteEmployeeAsync(id);
 
-                session.Delete(employee);
-                session.Flush();
-            }
-            return await Task.FromResult(this.Ok()).ConfigureAwait(false);
+            if (serviceResponse.Data == null)
+                return this.NotFound("Employee not found");
+
+            return this.Ok(serviceResponse);
+        }
+
+        [HttpGet]
+        public virtual async Task<IActionResult> GetAll()
+        {
+            var serviceResponse = await this.EmployeeRepository.GetAllEmployeesAsync();
+            return this.Ok(serviceResponse);
         }
 
         [Route("{id:guid?}"), HttpGet]
-        [Route("{username?}"), HttpGet]
-        public virtual async Task<IActionResult> GetAsync(Guid? id, string username = null)
+        public virtual async Task<IActionResult> GetByIdAsync(Guid? id)
         {
-            using (var session = NhibernateExtensions.SessionFactory.OpenSession())
+            var serviceResponse = new ServiceResponse<GetEmployeeDTO>();
+            if (id.HasValue)
             {
-                if (id.HasValue)
+                serviceResponse = await this.EmployeeRepository.GetEmployeeByIdAsync(id.Value);
+                if (serviceResponse.Data == null)
                 {
-                    var employee = session.QueryOver<Employee>()
-                   .Where(x => x.Id == id)
-                   .SingleOrDefault();
-
-                    if (employee == null)
-                        return this.NotFound();
-
-                    return await Task.FromResult(this.Ok(employee)).ConfigureAwait(false);
+                    serviceResponse.UpdateResponseStatus($"Employee does not exist", false);
+                    return this.NotFound(serviceResponse);
                 }
-                else if (!string.IsNullOrEmpty(username))
-                {
-                    var employee = session.QueryOver<Employee>()
-                   .Where(x => x.Email == username)
-                   .SingleOrDefault();
-
-                    if (employee == null)
-                        return this.NotFound();
-
-                    return await Task.FromResult(this.Ok(employee)).ConfigureAwait(false);
-                }
-
-                var employees = session.QueryOver<Employee>()
-                    .List<Employee>();
-
-                return await Task.FromResult(this.Ok(employees)).ConfigureAwait(false);
+                serviceResponse.UpdateResponseStatus($"Employee exist");
+                return this.Ok(serviceResponse);
+            }
+            else
+            {
+                serviceResponse.UpdateResponseStatus($"Employee does not exist", false);
+                return this.NotFound("");
             }
         }
 
-        [Route("{id:guid?}"), HttpPost]
-        public virtual async Task<IActionResult> UpsertEmployeeAsync(Employee viewModel, Guid? id)
+        [Route("{username?}"), HttpGet]
+        public virtual async Task<IActionResult> GetByNameAsync(string username = null)
+        {
+            ServiceResponse<GetEmployeeDTO> serviceResponse = new ServiceResponse<GetEmployeeDTO>();
+            if (!string.IsNullOrEmpty(username))
+            {
+                serviceResponse = await EmployeeRepository.GetEmployeeByNameAsync(username);
+                if (serviceResponse.Data == null)
+                {
+                    serviceResponse.UpdateResponseStatus($"Employee with {username} does not exist", false);
+                    return this.NotFound(serviceResponse);
+                }
+                serviceResponse.UpdateResponseStatus($"Employee { username } exist");
+                return this.Ok(serviceResponse);
+            }
+            else
+            {
+                serviceResponse.UpdateResponseStatus($"Employee does not exist", false);
+                return this.NotFound("");
+            }
+        }
+
+        [Route("update"), HttpPost]
+        public virtual async Task<IActionResult> UpdateEmployee(UpdateEmployeeDTO updateEmployee)
         {
             if (!ModelState.IsValid)
                 return this.BadRequest(ModelState);
 
-            var isUpdate = id.HasValue;
-            var employee = new Employee();
-            using (var session = NhibernateExtensions.SessionFactory.OpenSession())
-            {
-                if (isUpdate)
-                {
-                    employee = session.Get<Employee>(id);
-                    //TODO: We need to finalize design for view model and model
-                    this.UpdateExistingEmployee(employee, viewModel);
-                }
-                else
-                {
-                    employee = viewModel;
-                }
-                session.SaveOrUpdate(employee);
-                session.Flush();
-            }
-            return await Task.FromResult(this.Ok(employee.Id)).ConfigureAwait(false);
+            var serviceResponse = await this.EmployeeRepository.UpdateEmployeeAsync(updateEmployee);
+            return this.Ok(serviceResponse);
         }
 
-        private void UpdateExistingEmployee(Employee existingEmployee, Employee viewModel)
+        [Route("upsert"), HttpPost]
+        public virtual async Task<IActionResult> UpsertEmployee(AddEmployeeDTO newEmployee)
         {
-            existingEmployee.Designation = viewModel.Designation;
-            existingEmployee.Email = viewModel.Email;
-            existingEmployee.Identifier = viewModel.Identifier;
-            existingEmployee.Name = viewModel.Name;
-            existingEmployee.Photo = viewModel.Photo;
+            if (!ModelState.IsValid)
+                return this.BadRequest(ModelState);
+
+            var serviceResponse = await this.EmployeeRepository.AddNewEmployeeAsync(newEmployee);
+            return this.Ok(serviceResponse);
         }
     }
 }

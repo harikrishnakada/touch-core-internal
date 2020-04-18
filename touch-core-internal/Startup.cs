@@ -1,12 +1,11 @@
-using System.Configuration;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using touch_core_internal.Configuration;
-using touch_core_internal.ORM.Nhibernate;
 using touch_core_internal.Services;
 
 namespace touch_core_internal
@@ -66,19 +65,25 @@ namespace touch_core_internal
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<ISendEmailNotificationService, SendEmailNotificationService>();
-            services.AddScoped<IInternalConfiguration, InternalConfiguration>();
+            services.AddAutoMapper(typeof(Startup));
 
-            var connectionString = ConfigurationManager.ConnectionStrings["TC_Internal"].ConnectionString;
-
-            services.AddNHibernate(connectionString);
-
+            services.AddDbContext<DataContext>(x => x.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            #region DI of repositories
+
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<ITimeSheetRepository, TimeSheetRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IBadgeRepository, BadgeRepository>();
+            services.AddScoped<IRewardRepository, RewardRepository>();
+
+            #endregion DI of repositories
         }
     }
 }
