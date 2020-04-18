@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using touch_core_internal.Services;
 
 namespace touch_core_internal
 {
@@ -73,6 +74,16 @@ namespace touch_core_internal
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            #region DI of repositories
+
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<ITimeSheetRepository, TimeSheetRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IBadgeRepository, BadgeRepository>();
+            services.AddScoped<IRewardRepository, RewardRepository>();
+
+            #endregion DI of repositories
         }
     }
 }

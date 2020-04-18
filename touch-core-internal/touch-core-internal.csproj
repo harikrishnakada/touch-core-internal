@@ -28,6 +28,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.0" />
   </ItemGroup>
@@ -40,17 +41,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\BadgeController.cs" />
-    <Compile Remove="Controllers\EmployeeController.cs" />
-    <Compile Remove="Controllers\RewardController.cs" />
-    <Compile Remove="Controllers\TimeSheetController.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="ClientApp\dist\assets\" />
     <Folder Include="ClientApp\src\app\dashoard\services\" />
     <Folder Include="ClientApp\src\app\shared\components\" />
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
