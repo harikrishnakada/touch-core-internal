@@ -1,0 +1,37 @@
+<div class="row">
+  <div role="group" class="btn-group-sm btn-group">
+    <button type="button" class="btn btn-primary" (click)="toogleTimeSheet.toggle()">
+      Add Time Sheet
+    </button>
+  </div>
+</div>
+
+<div class="col-12" mdbCollapse #toogleTimeSheet="bs-collapse">
+  <app-add-time-sheet (timeSheetAdded)="onTimeSheetAdded($event)"></app-add-time-sheet>
+</div>
+
+<div class="row">
+  <div class="table-responsive">
+    <table datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions"
+           class="align-middle mb-0 table table-borderless table-striped table-hover">
+      <thead>
+        <tr>
+          <th class="text-center" appAuthorize>Employee Name</th>
+          <th class="text-center">From Time</th>
+          <th class="text-center">To Time</th>
+          <th class="text-center">Hours Worked</th>
+          <th class="text-center">Comemnts</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let timeSheet of timeSheets; let i = index" role="row">
+          <td class="text-center text-muted" appAuthorize>{{timeSheet.employee.name}}</td>
+          <td class="text-center text-muted">{{timeSheet.fromDateTime | date:'MM-dd-yyyy HH:mm'}}</td>
+          <td class="text-center">{{timeSheet.toDateTime | date:'MM-dd-yyyy HH:mm'}}</td>
+          <td class="text-center">{{getDuration(timeSheet.fromDateTime, timeSheet.toDateTime)}}</td>
+          <td class="text-center">{{timeSheet.comments}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

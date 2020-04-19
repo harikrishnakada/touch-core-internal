@@ -1,0 +1,51 @@
+<div appAuthenticate>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                Employee Rewards
+                <div class="btn-actions-pane-right" appAuthorize>
+                    <div role="group" class="btn-group-sm btn-group">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addRewardModal">
+                            Add Reward
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions"
+                        class="align-middle mb-0 table table-borderless table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Employee ID</th>
+                                <th class="text-center">Employee Name</th>
+                                <th class="text-center">Badge</th>
+                                <th class="text-center">Points</th>
+                                <th appAuthorize></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let reward of rewardList; let i = index" role="row">
+                                <td class="text-center text-muted">{{reward.employee.identifier}}</td>
+                                <td class="text-center">{{reward.employee.name}}</td>
+                                <td class="text-center">{{reward.badge.badgeName}}</td>
+                                <td class="text-center">{{reward.badge.score}}</td>
+                                <td appAuthorize><a (click)="EditForm(reward)"><span class="fa fa-edit"></span></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="addRewardModal" role="dialog" aria-labelledby="addRewardModalLabel"
+    aria-hidden="true">
+    <app-reward-form [newReward]="reward" (rewardAdded)="onRewardAdded($event)"></app-reward-form>
+</div>
+ <!-- Modal -->
+<app-spinner></app-spinner>
+</div>

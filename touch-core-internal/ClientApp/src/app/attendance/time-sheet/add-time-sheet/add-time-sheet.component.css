@@ -1,0 +1,9 @@
+.action-buttons {
+  position: relative;
+  right: 10px;
+  bottom: 10px;
+}
+
+  .action-buttons button {
+    margin: 10px;
+  }

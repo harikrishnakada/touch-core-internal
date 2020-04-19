@@ -1,0 +1,39 @@
+<div class="row" *ngIf="hasPermission; else noPermission">
+  <div class="col-md-12">
+    <div class="main-card mb-3 card">
+      <div class="card-header">
+        Employees
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions" class="align-middle mb-0 table table-borderless table-striped table-hover">
+            <thead>
+              <tr>
+                <th class="text-center">ID</th>
+                <th class="text-center">Name</th>
+                <th class="text-center">Email</th>
+                <th class="text-center">Designation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let emp of employees; let i = index" role="row">
+                <td class="text-center text-muted">{{emp.identifier}}</td>
+                <td class="text-center">{{emp.name}}</td>
+                <td class="text-center">{{emp.email}}</td>
+                <td class="text-center">{{emp.designation}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #noPermission>
+  <p>
+    <span class="no-permission">
+      You don't have permission to access this page.
+    </span>
+  </p>
+</ng-template>
+<app-spinner></app-spinner>

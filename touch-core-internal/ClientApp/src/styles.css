@@ -2,6 +2,7 @@
 
 /* Provide sufficient contrast against white background */
 @import "~@ng-select/ng-select/themes/default.theme.css";
+@import "~ng-pick-datetime/assets/style/picker.min.css";
 
 a {
   color: #0366d6;
@@ -37,4 +38,8 @@ code {
 
 input.ng-invalid.ng-touched {
   border: 1px solid red;
+}
+
+.no-permission{
+  color: red;
 }

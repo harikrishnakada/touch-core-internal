@@ -1,0 +1,58 @@
+<div class="modal-dialog modal-md modal-position">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form (ngSubmit)="onSubmit(addReward)" #addReward="ngForm">
+        <div class="row">
+          <div class="form-group required col-6">
+            <label class="control-label col-sm-4" for="employee">Employee</label>
+            <div class="col-12">
+              <ng-select [items]="employees" bindLabel="name" bindValue="id" placeholder="Select Employee"
+                         appendTo="body" search="true" name="employeeId" [(ngModel)]="newReward.employeeId"
+                         #employeeModel="ngModel"
+                         required>
+              </ng-select>
+              <span class="help-block text-danger" *ngIf="!employeeModel.valid && employeeModel.touched">Please Select an Employee</span>
+            </div>
+          </div>
+          <div class="form-group required col-6">
+            <label class="control-label col-sm-4" for="employee">Badge</label>
+            <div class="col-12">
+              <ng-select [items]="badges" bindLabel="badgeName" bindValue="id"
+                         placeholder="Select Badge" #badgeModel="ngModel"
+                         appendTo="body" search="true" name="badgeId"
+                         [(ngModel)]="newReward.badgeId" required>
+              </ng-select>
+              <span class="help-block text-danger" *ngIf="!badgeModel.valid && badgeModel.touched">Please Select a Badge</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-12">
+            <label class="control-label col-sm-4" for="comments">Comments</label>
+            <div class="col-12">
+              <input type="text"
+                     id="comments"
+                     class="form-control"
+                     ngModel
+                     name="comments"
+                     #comments="ngModel"
+                     [(ngModel)]="newReward.comments">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="reset()">Close</button>
+          <button type="submit" class="btn btn-primary" [disabled]="!addReward.valid">Save changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<app-spinner></app-spinner>

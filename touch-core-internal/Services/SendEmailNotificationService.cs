@@ -18,7 +18,8 @@ namespace touch_core_internal.Services
             var _sender = ConfigurationManager.AppSettings["SenderEmailAddress"];
             var password = ConfigurationManager.AppSettings["SenderEmailPassword"];
 
-            SmtpClient client = new SmtpClient("smtp-mail.outlook.com");
+            //Make sure you turn on the "Allow Less Secure Apps"(https://myaccount.google.com/u/2/lesssecureapps) in your google account settings to allow sending emails programatically.
+            SmtpClient client = new SmtpClient("smtp.gmail.com");
 
                 client.Port = 587;
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;

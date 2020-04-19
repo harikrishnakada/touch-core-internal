@@ -69,7 +69,7 @@ namespace touch_core_internal
             services.AddScoped<ISendEmailNotificationService, SendEmailNotificationService>();
             services.AddScoped<IInternalConfiguration, InternalConfiguration>();
 
-            var connectionString = ConfigurationManager.ConnectionStrings["Gratification"].ConnectionString;
+            var connectionString = ConfigurationManager.ConnectionStrings["TC_Internal"].ConnectionString;
 
             services.AddNHibernate(connectionString);
 

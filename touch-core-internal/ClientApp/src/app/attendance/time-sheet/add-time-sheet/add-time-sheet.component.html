@@ -1,0 +1,81 @@
+<div class="container">
+  <form (ngSubmit)="onSubmit(newTimeSheet)" #addTimeSheet="ngForm">
+    <div class="row col-12">
+      <!--Select Employee-->
+      <div class="form-group required col-3" appAuthorize>
+        <label class="control-label col-12" for="fromTime"> <strong>Employee</strong> </label>
+        <div class="col-12">
+          <ng-select [items]="allEmployees" bindLabel="name" bindValue="id" placeholder="Select Employee"
+                     appendTo="body" search="true" name="employeeId" [(ngModel)]="newTimeSheet.employeeId"
+                     #employeeModel="ngModel"
+                     required>
+          </ng-select>
+          <span class="help-block text-danger" *ngIf="!employeeModel.valid && employeeModel.touched">Please Select an Employee</span>
+        </div>
+      </div>
+
+      <!--Select From Time-->
+      <div class="form-group required col-3">
+        <label class="control-label col-12" for="fromTime">
+          <strong>To Date Time</strong>
+        </label>
+        <div class="col-12">
+          <input [(ngModel)]="FromDateTime" [owlDateTimeTrigger]="dt"
+                 [owlDateTime]="dt" name="fromDateTime" class="form-control">
+          <owl-date-time #dt></owl-date-time>
+        </div>
+      </div>
+
+      <!--Select To Time-->
+      <div class="form-group required  col-3">
+        <label class="control-label col-12" for="toTime">
+          <strong>To Date Time</strong>
+        </label>
+        <div class="col-12">
+          <input [(ngModel)]="ToDateTime" [min]="FromDateTime" [max]="maxDate()" [owlDateTimeTrigger]="dt1"
+                 [owlDateTime]="dt1" name="toDateTime" [disabled]="FromDateTime==null" class="form-control">
+          <owl-date-time #dt1></owl-date-time>
+        </div>
+      </div>
+
+      <!--Hours Worked-->
+      <!--Actions-->
+      <div class="">
+      
+      </div>
+
+    </div>
+    <div class="row col-12">
+      <div class="form-group required col-6">
+        <label class="control-label col-12" for="comments">
+          <strong>Comments</strong>
+        </label>
+        <div class="col-12">
+          <textarea name="comments" placeholder="Write Comments" maxlength="900" class="form-control" [(ngModel)]="newTimeSheet.Comments"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="row col-12">
+      <div class="form-group col-6">
+        <label class="col-9" for="numberOfHours">
+          <strong> Number of hours worked : </strong>
+        </label>
+        <div class="col-3">
+          <span> {{getDuration(FromDateTime, ToDateTime)}}</span>
+          <!--<span *ngIf="duration != null">{{duration.hours}} hours and {{duration.minutes}}</span>-->
+        </div>
+      </div>
+      <div class="form-group col-6">
+        <div class="action-buttons">
+          <button class="btn btn-success" type="submit" [disabled]="!addTimeSheet.valid">
+            Save
+          </button>
+          <button class="btn btn-danger" (click)="reset()" type="button">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

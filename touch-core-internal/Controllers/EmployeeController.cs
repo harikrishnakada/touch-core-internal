@@ -47,7 +47,8 @@ namespace touch_core_internal.Controllers
         }
 
         [Route("{id:guid?}"), HttpGet]
-        public virtual async Task<IActionResult> GetAsync(Guid? id)
+        [Route("{username?}"), HttpGet]
+        public virtual async Task<IActionResult> GetAsync(Guid? id, string username = null)
         {
             using (var session = NhibernateExtensions.SessionFactory.OpenSession())
             {
@@ -55,6 +56,17 @@ namespace touch_core_internal.Controllers
                 {
                     var employee = session.QueryOver<Employee>()
                    .Where(x => x.Id == id)
+                   .SingleOrDefault();
+
+                    if (employee == null)
+                        return this.NotFound();
+
+                    return await Task.FromResult(this.Ok(employee)).ConfigureAwait(false);
+                }
+                else if (!string.IsNullOrEmpty(username))
+                {
+                    var employee = session.QueryOver<Employee>()
+                   .Where(x => x.Email == username)
                    .SingleOrDefault();
 
                     if (employee == null)
