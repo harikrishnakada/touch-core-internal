@@ -7,26 +7,28 @@ using touch_core_internal.Services;
 namespace touch_core_internal.Controllers
 {
     [ApiController]
-    [Route("api/timeSheet")]
-    public class TimeSheetController : ControllerBase
+    [Route("api/category")]
+    public class CategoryController : ControllerBase
     {
-        public TimeSheetController(ITimeSheetRepository timeSheetRepository)
+        public CategoryController(ICategoryRepository categoryRepository)
         {
-            this.TimeSheetRepository = timeSheetRepository;
+            this.CategoryRepository = categoryRepository;
         }
 
-        public ITimeSheetRepository TimeSheetRepository { get; set; }
+        public ICategoryRepository CategoryRepository { get; set; }
 
+        //Do we really need this api?
+        //If yes, then implement cascading. Rigtnow it is not implemented
         [Route("{id:guid}"), HttpDelete]
         public virtual async Task<IActionResult> DeleteAsync(Guid id)
         {
             if (!ModelState.IsValid)
                 return this.BadRequest(ModelState);
 
-            var serviceResponse = await this.TimeSheetRepository.DeleteTimeSheetAsync(id);
+            var serviceResponse = await this.CategoryRepository.DeleteCategoryAsync(id);
 
             if (serviceResponse.Data == null)
-                return this.NotFound("Timesheet not found");
+                return this.NotFound("Category not found");
 
             return this.Ok(serviceResponse);
         }
@@ -34,39 +36,39 @@ namespace touch_core_internal.Controllers
         [HttpGet]
         public virtual async Task<IActionResult> GetAll()
         {
-            var serviceResponse = await this.TimeSheetRepository.GetAllTimesheetsAsync();
+            var serviceResponse = await this.CategoryRepository.GetAllCategoriesAsync();
             return this.Ok(serviceResponse);
         }
 
         [Route("{id:guid?}"), HttpGet]
         public virtual async Task<IActionResult> GetByIdAsync(Guid? id)
         {
-            var serviceResponse = new ServiceResponse<GetTimeSheetDTO>();
+            var serviceResponse = new ServiceResponse<GetCategoryDTO>();
             if (id.HasValue)
             {
-                serviceResponse = await this.TimeSheetRepository.GetTimeSheetByIdAsync(id.Value);
+                serviceResponse = await this.CategoryRepository.GetCategoryByIdAsync(id.Value);
                 if (serviceResponse.Data == null)
                 {
-                    serviceResponse.UpdateResponseStatus($"Timesheet does not exist", false);
+                    serviceResponse.UpdateResponseStatus($"Category does not exist", false);
                     return this.NotFound(serviceResponse);
                 }
-                serviceResponse.UpdateResponseStatus($"Timesheet exist");
+                serviceResponse.UpdateResponseStatus("Category exist");
                 return this.Ok(serviceResponse);
             }
             else
             {
-                serviceResponse.UpdateResponseStatus($"Timesheet does not exist", false);
+                serviceResponse.UpdateResponseStatus($"Category does not exist", false);
                 return this.NotFound("");
             }
         }
 
         [Route("upsert"), HttpPost]
-        public virtual async Task<IActionResult> UpsertTimeSheet(AddTimeSheetDTO newTimeSheet)
+        public virtual async Task<IActionResult> UpsertCategory(AddCategoryDTO newCategory)
         {
             if (!ModelState.IsValid)
                 return this.BadRequest(ModelState);
 
-            var serviceResponse = await this.TimeSheetRepository.AddNewTimeSheetAsync(newTimeSheet);
+            var serviceResponse = await this.CategoryRepository.AddNewCategoryAsync(newCategory);
             return this.Ok(serviceResponse);
         }
     }

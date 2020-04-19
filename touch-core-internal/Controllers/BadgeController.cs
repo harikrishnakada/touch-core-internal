@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using touch_core_internal.Model;
-using touch_core_internal.ORM.Nhibernate;
+using touch_core_internal.DTOs;
+using touch_core_internal.Services;
 
 namespace touch_core_internal.Controllers
 {
@@ -12,78 +10,64 @@ namespace touch_core_internal.Controllers
     [Route("api/badge")]
     public class BadgeController : ControllerBase
     {
+        public BadgeController(IBadgeRepository badgeRepository)
+        {
+            this.BadgeRepository = badgeRepository;
+        }
+
+        public IBadgeRepository BadgeRepository { get; set; }
+
         [Route("{id:guid}"), HttpDelete]
         public virtual async Task<IActionResult> DeleteAsync(Guid id)
         {
             if (!ModelState.IsValid)
                 return this.BadRequest(ModelState);
 
-            using (var session = NhibernateExtensions.SessionFactory.OpenSession())
-            {
-                var badge = session.Get<Badge>(id);
-                if (badge == null)
-                    return this.NotFound();
+            var serviceResponse = await this.BadgeRepository.DeleteBadgeAsync(id);
 
-                session.Delete(badge);
-                session.Flush();
-            }
-            return await Task.FromResult(this.Ok()).ConfigureAwait(false);
+            if (serviceResponse.Data == null)
+                return this.NotFound("Badge not found");
+
+            return this.Ok(serviceResponse);
+        }
+
+        [HttpGet]
+        public virtual async Task<IActionResult> GetAll()
+        {
+            var serviceResponse = await this.BadgeRepository.GetAllBadgesAsync();
+            return this.Ok(serviceResponse);
         }
 
         [Route("{id:guid?}"), HttpGet]
-        public virtual async Task<IActionResult> GetAsync(Guid? id)
+        public virtual async Task<IActionResult> GetByIdAsync(Guid? id)
         {
-            using (var session = NhibernateExtensions.SessionFactory.OpenSession())
+            var serviceResponse = new ServiceResponse<GetBadgeDTO>();
+            if (id.HasValue)
             {
-                if (id.HasValue)
+                serviceResponse = await this.BadgeRepository.GetBadgeByIdAsync(id.Value);
+                if (serviceResponse.Data == null)
                 {
-                    var badge = session.QueryOver<Badge>()
-                       .Where(x => x.Id == id)
-                       .SingleOrDefault();
-
-                    if (badge == null)
-                        return this.NotFound();
-
-                    return await Task.FromResult(this.Ok(badge)).ConfigureAwait(false);
+                    serviceResponse.UpdateResponseStatus($"Badge does not exist", false);
+                    return this.NotFound(serviceResponse);
                 }
-
-                var badges = session.QueryOver<Badge>()
-                    .List<Badge>();
-
-                return await Task.FromResult(this.Ok(badges)).ConfigureAwait(false);
+                serviceResponse.UpdateResponseStatus($"Badge exist");
+                return this.Ok(serviceResponse);
+            }
+            else
+            {
+                serviceResponse.UpdateResponseStatus($"Badge does not exist", false);
+                return this.NotFound(serviceResponse);
             }
         }
 
-        [Route("{id:guid?}"), HttpPost]
-        public virtual async Task<IActionResult> UpsertBadgeAsync(Badge viewModel, Guid? id)
+        [Route("upsert"), HttpPost]
+        public virtual async Task<IActionResult> UpsertBadge(AddBadgeDTO newBadge)
         {
             if (!ModelState.IsValid)
                 return this.BadRequest(ModelState);
 
-            var isUpdate = id.HasValue;
-            var badge = new Badge();
-            using (var session = NhibernateExtensions.SessionFactory.OpenSession())
-            {
-                if (isUpdate)
-                {
-                    badge = session.Get<Badge>(id);
-                    this.WriteViewModel(badge, viewModel);
-                }
-                else
-                {
-                    badge = viewModel;
-                }
-                session.SaveOrUpdate(badge);
-                session.Flush();
-            }
-            return await Task.FromResult(this.Ok(badge.Id)).ConfigureAwait(false);
-        }
-
-        private void WriteViewModel(Badge badge, Badge viewModel)
-        {
-            badge.BadgeName = viewModel.BadgeName;
-            badge.Category = viewModel.BadgeName;
-            badge.Score = viewModel.Score;
+            var serviceResponse = await this.BadgeRepository.AddNewBadgeAsync(newBadge);
+            return this.Ok(serviceResponse);
         }
     }
 }
