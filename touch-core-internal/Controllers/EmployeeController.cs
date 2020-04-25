@@ -80,6 +80,28 @@ namespace touch_core_internal.Controllers
                 serviceResponse.UpdateResponseStatus($"Employee does not exist", false);
                 return this.NotFound("");
             }
+        } 
+        
+        [Route("{email?}"), HttpGet]
+        public virtual async Task<IActionResult> GetByEmailAsync(string email = null)
+        {
+            ServiceResponse<GetEmployeeDTO> serviceResponse = new ServiceResponse<GetEmployeeDTO>();
+            if (!string.IsNullOrEmpty(email))
+            {
+                serviceResponse = await EmployeeRepository.GetEmployeeByEmailAsync(email);
+                if (serviceResponse.Data == null)
+                {
+                    serviceResponse.UpdateResponseStatus($"Employee with {email} does not exist", false);
+                    return this.NotFound(serviceResponse);
+                }
+                serviceResponse.UpdateResponseStatus($"Employee { email } exist");
+                return this.Ok(serviceResponse);
+            }
+            else
+            {
+                serviceResponse.UpdateResponseStatus($"Employee does not exist", false);
+                return this.NotFound("");
+            }
         }
 
         [Route("update"), HttpPost]

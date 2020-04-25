@@ -21,17 +21,22 @@ namespace touch_core_internal.Services
 
         public IMapper Mapper { get; private set; }
 
-        public async Task<ServiceResponse<List<GetEmployeeDTO>>> AddNewEmployeeAsync(AddEmployeeDTO newEmployee)
+        public async Task<ServiceResponse<GetEmployeeDTO>> AddNewEmployeeAsync(AddEmployeeDTO newEmployee)
         {
-            var serviceResponse = new ServiceResponse<List<GetEmployeeDTO>>();
+            var serviceResponse = new ServiceResponse<GetEmployeeDTO>();
+
+            if (await this.GetEmployeeByEmailAsync(newEmployee.Email) != null)
+            {
+                serviceResponse.UpdateResponseStatus($"Employee with email {newEmployee.Email} already exists.", false);
+
+                return serviceResponse;
+            }
+
             var employee = this.Mapper.Map<Employee>(newEmployee);
             await this.DataContext.Employees.AddAsync(employee);
             await this.DataContext.SaveChangesAsync();
 
-            serviceResponse.Data = await this.DataContext.Employees
-                .Include(x => x.TimeSheets)
-                .Select(e => this.Mapper.Map<GetEmployeeDTO>(e))
-                .ToListAsync();
+            serviceResponse.Data = this.Mapper.Map<GetEmployeeDTO>(employee);
             return serviceResponse;
         }
 
@@ -71,6 +76,7 @@ namespace touch_core_internal.Services
             var serviceResponse = new ServiceResponse<GetEmployeeDTO>();
             var dbEmployee = await DataContext.Employees
                 .Include(x => x.TimeSheets)
+                .Include(x => x.Rewards)
                 .FirstOrDefaultAsync(x => x.EmployeeId == id);
 
             serviceResponse.Data = this.Mapper.Map<GetEmployeeDTO>(dbEmployee);
@@ -81,6 +87,15 @@ namespace touch_core_internal.Services
         {
             var serviceResponse = new ServiceResponse<GetEmployeeDTO>();
             var dbEmployee = await DataContext.Employees.FirstOrDefaultAsync(x => x.Name == name);
+
+            serviceResponse.Data = this.Mapper.Map<GetEmployeeDTO>(dbEmployee);
+            return serviceResponse;
+        } 
+        
+        public async Task<ServiceResponse<GetEmployeeDTO>> GetEmployeeByEmailAsync(string email)
+        {
+            var serviceResponse = new ServiceResponse<GetEmployeeDTO>();
+            var dbEmployee = await DataContext.Employees.FirstOrDefaultAsync(x => x.Email == email);
 
             serviceResponse.Data = this.Mapper.Map<GetEmployeeDTO>(dbEmployee);
             return serviceResponse;
@@ -108,5 +123,6 @@ namespace touch_core_internal.Services
             }
             return serviceResponse;
         }
+
     }
 }
