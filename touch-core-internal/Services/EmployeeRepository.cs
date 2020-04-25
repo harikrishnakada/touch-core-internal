@@ -1,9 +1,12 @@
-﻿using System;
+﻿using AutoMapper;
+
+using Microsoft.EntityFrameworkCore;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+
 using touch_core_internal.DTOs;
 using touch_core_internal.Models;
 
@@ -72,6 +75,15 @@ namespace touch_core_internal.Services
             return serviceResponse;
         }
 
+        public async Task<ServiceResponse<GetEmployeeDTO>> GetEmployeeByEmailAsync(string email)
+        {
+            var serviceResponse = new ServiceResponse<GetEmployeeDTO>();
+            var dbEmployee = await DataContext.Employees.FirstOrDefaultAsync(x => x.Email == email);
+
+            serviceResponse.Data = this.Mapper.Map<GetEmployeeDTO>(dbEmployee);
+            return serviceResponse;
+        }
+
         public async Task<ServiceResponse<GetEmployeeDTO>> GetEmployeeByIdAsync(Guid id)
         {
             var serviceResponse = new ServiceResponse<GetEmployeeDTO>();
@@ -88,15 +100,6 @@ namespace touch_core_internal.Services
         {
             var serviceResponse = new ServiceResponse<GetEmployeeDTO>();
             var dbEmployee = await DataContext.Employees.FirstOrDefaultAsync(x => x.Name == name);
-
-            serviceResponse.Data = this.Mapper.Map<GetEmployeeDTO>(dbEmployee);
-            return serviceResponse;
-        } 
-        
-        public async Task<ServiceResponse<GetEmployeeDTO>> GetEmployeeByEmailAsync(string email)
-        {
-            var serviceResponse = new ServiceResponse<GetEmployeeDTO>();
-            var dbEmployee = await DataContext.Employees.FirstOrDefaultAsync(x => x.Email == email);
 
             serviceResponse.Data = this.Mapper.Map<GetEmployeeDTO>(dbEmployee);
             return serviceResponse;
@@ -124,6 +127,5 @@ namespace touch_core_internal.Services
             }
             return serviceResponse;
         }
-
     }
 }

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+
+using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+
 using touch_core_internal.DTOs;
 using touch_core_internal.Services;
 
@@ -38,6 +40,21 @@ namespace touch_core_internal.Controllers
             return this.Ok(serviceResponse);
         }
 
+        [Route("email/{email}"), HttpGet]
+        public virtual async Task<IActionResult> GetByEmailAsync(string email)
+        {
+            ServiceResponse<GetEmployeeDTO> serviceResponse = new ServiceResponse<GetEmployeeDTO>();
+
+            serviceResponse = await EmployeeRepository.GetEmployeeByEmailAsync(email);
+            if (serviceResponse.Data == null)
+            {
+                serviceResponse.UpdateResponseStatus($"Employee with {email} does not exist", false);
+                return this.NotFound(serviceResponse);
+            }
+            serviceResponse.UpdateResponseStatus($"Employee { email } exist");
+            return this.Ok(serviceResponse);
+        }
+
         [Route("{id:guid?}"), HttpGet]
         public virtual async Task<IActionResult> GetByIdAsync(Guid? id)
         {
@@ -64,44 +81,15 @@ namespace touch_core_internal.Controllers
         public virtual async Task<IActionResult> GetByNameAsync(string username)
         {
             ServiceResponse<GetEmployeeDTO> serviceResponse = new ServiceResponse<GetEmployeeDTO>();
-            if (!string.IsNullOrEmpty(username))
+
+            serviceResponse = await EmployeeRepository.GetEmployeeByNameAsync(username);
+            if (serviceResponse.Data == null)
             {
-                serviceResponse = await EmployeeRepository.GetEmployeeByNameAsync(username);
-                if (serviceResponse.Data == null)
-                {
-                    serviceResponse.UpdateResponseStatus($"Employee with {username} does not exist", false);
-                    return this.NotFound(serviceResponse);
-                }
-                serviceResponse.UpdateResponseStatus($"Employee { username } exist");
-                return this.Ok(serviceResponse);
-            }
-            else
-            {
-                serviceResponse.UpdateResponseStatus($"Employee does not exist", false);
+                serviceResponse.UpdateResponseStatus($"Employee with {username} does not exist", false);
                 return this.NotFound(serviceResponse);
             }
-        } 
-        
-        [Route("email/{email}"), HttpGet]
-        public virtual async Task<IActionResult> GetByEmailAsync(string email)
-        {
-            ServiceResponse<GetEmployeeDTO> serviceResponse = new ServiceResponse<GetEmployeeDTO>();
-            if (!string.IsNullOrEmpty(email))
-            {
-                serviceResponse = await EmployeeRepository.GetEmployeeByEmailAsync(email);
-                if (serviceResponse.Data == null)
-                {
-                    serviceResponse.UpdateResponseStatus($"Employee with {email} does not exist", false);
-                    return this.NotFound(serviceResponse);
-                }
-                serviceResponse.UpdateResponseStatus($"Employee { email } exist");
-                return this.Ok(serviceResponse);
-            }
-            else
-            {
-                serviceResponse.UpdateResponseStatus($"Employee does not exist", false);
-                return this.NotFound(serviceResponse);
-            }
+            serviceResponse.UpdateResponseStatus($"Employee { username } exist");
+            return this.Ok(serviceResponse);
         }
 
         [Route("update"), HttpPost]
