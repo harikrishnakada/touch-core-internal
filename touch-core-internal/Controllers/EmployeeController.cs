@@ -61,7 +61,7 @@ namespace touch_core_internal.Controllers
         }
 
         [Route("username/{username}"), HttpGet]
-        public virtual async Task<IActionResult> GetByNameAsync(string username = null)
+        public virtual async Task<IActionResult> GetByNameAsync(string username)
         {
             ServiceResponse<GetEmployeeDTO> serviceResponse = new ServiceResponse<GetEmployeeDTO>();
             if (!string.IsNullOrEmpty(username))
@@ -83,7 +83,7 @@ namespace touch_core_internal.Controllers
         } 
         
         [Route("email/{email}"), HttpGet]
-        public virtual async Task<IActionResult> GetByEmailAsync(string email = null)
+        public virtual async Task<IActionResult> GetByEmailAsync(string email)
         {
             ServiceResponse<GetEmployeeDTO> serviceResponse = new ServiceResponse<GetEmployeeDTO>();
             if (!string.IsNullOrEmpty(email))
