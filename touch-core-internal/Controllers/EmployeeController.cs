@@ -60,7 +60,7 @@ namespace touch_core_internal.Controllers
             }
         }
 
-        [Route("{username?}"), HttpGet]
+        [Route("username/{username}"), HttpGet]
         public virtual async Task<IActionResult> GetByNameAsync(string username = null)
         {
             ServiceResponse<GetEmployeeDTO> serviceResponse = new ServiceResponse<GetEmployeeDTO>();
@@ -78,11 +78,11 @@ namespace touch_core_internal.Controllers
             else
             {
                 serviceResponse.UpdateResponseStatus($"Employee does not exist", false);
-                return this.NotFound("");
+                return this.NotFound(serviceResponse);
             }
         } 
         
-        [Route("{email?}"), HttpGet]
+        [Route("email/{email}"), HttpGet]
         public virtual async Task<IActionResult> GetByEmailAsync(string email = null)
         {
             ServiceResponse<GetEmployeeDTO> serviceResponse = new ServiceResponse<GetEmployeeDTO>();
@@ -100,7 +100,7 @@ namespace touch_core_internal.Controllers
             else
             {
                 serviceResponse.UpdateResponseStatus($"Employee does not exist", false);
-                return this.NotFound("");
+                return this.NotFound(serviceResponse);
             }
         }
 

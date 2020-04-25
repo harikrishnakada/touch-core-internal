@@ -25,7 +25,8 @@ namespace touch_core_internal.Services
         {
             var serviceResponse = new ServiceResponse<GetEmployeeDTO>();
 
-            if (await this.GetEmployeeByEmailAsync(newEmployee.Email) != null)
+            var employeeByEmail = await this.GetEmployeeByEmailAsync(newEmployee.Email);
+            if (employeeByEmail.Data != null)
             {
                 serviceResponse.UpdateResponseStatus($"Employee with email {newEmployee.Email} already exists.", false);
 
