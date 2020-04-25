@@ -7,7 +7,7 @@ namespace touch_core_internal.Services
 {
     public interface IEmployeeRepository
     {
-        Task<ServiceResponse<List<GetEmployeeDTO>>> AddNewEmployeeAsync(AddEmployeeDTO newEmployee);
+        Task<ServiceResponse<GetEmployeeDTO>> AddNewEmployeeAsync(AddEmployeeDTO newEmployee);
 
         Task<ServiceResponse<List<GetEmployeeDTO>>> DeleteEmployeeAsync(Guid id);
 
@@ -16,6 +16,8 @@ namespace touch_core_internal.Services
         Task<ServiceResponse<GetEmployeeDTO>> GetEmployeeByIdAsync(Guid id);
 
         Task<ServiceResponse<GetEmployeeDTO>> GetEmployeeByNameAsync(string name);
+
+        Task<ServiceResponse<GetEmployeeDTO>> GetEmployeeByEmailAsync(string email);
 
         Task<ServiceResponse<GetEmployeeDTO>> UpdateEmployeeAsync(UpdateEmployeeDTO updateEmployee);
     }
