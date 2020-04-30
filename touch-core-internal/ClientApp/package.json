@@ -36,7 +36,7 @@
     "datatables.net-buttons": "^1.6.1",
     "datatables.net-dt": "^1.10.20",
     "highcharts": "^8.0.0",
-    "jquery": "3.4.1",
+    "jquery": "3.5.0",
     "moment": "^2.24.0",
     "ng-pick-datetime": "^7.0.0",
     "ngx-spinner": "^8.1.0",
